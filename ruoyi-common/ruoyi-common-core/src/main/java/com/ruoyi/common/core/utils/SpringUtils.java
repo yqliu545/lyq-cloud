@@ -1,5 +1,6 @@
 package com.ruoyi.common.core.utils;
 
+import cn.hutool.extra.spring.SpringUtil;
 import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
@@ -9,11 +10,11 @@ import org.springframework.stereotype.Component;
 
 /**
  * spring工具类 方便在非spring管理环境中获取bean
- * 
+ *
  * @author ruoyi
  */
 @Component
-public final class SpringUtils implements BeanFactoryPostProcessor
+public final class SpringUtils extends SpringUtil implements BeanFactoryPostProcessor
 {
     /** Spring应用上下文环境 */
     private static ConfigurableListableBeanFactory beanFactory;
@@ -102,7 +103,7 @@ public final class SpringUtils implements BeanFactoryPostProcessor
 
     /**
      * 获取aop代理对象
-     * 
+     *
      * @param invoker
      * @return
      */
