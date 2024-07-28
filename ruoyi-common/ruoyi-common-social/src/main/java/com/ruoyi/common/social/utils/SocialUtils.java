@@ -26,6 +26,7 @@ public class SocialUtils  {
         AuthCallback callback = new AuthCallback();
         callback.setCode(code);
         callback.setState(state);
+        callback.setAuth_code(code);
         return authRequest.login(callback);
     }
 

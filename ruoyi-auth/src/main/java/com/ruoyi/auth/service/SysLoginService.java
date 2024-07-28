@@ -1,5 +1,6 @@
 package com.ruoyi.auth.service;
 
+import me.zhyd.oauth.model.AuthUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.ruoyi.common.core.constant.CacheConstants;
@@ -21,7 +22,7 @@ import com.ruoyi.system.api.model.LoginUser;
 
 /**
  * 登录校验方法
- * 
+ *
  * @author ruoyi
  */
 @Component
@@ -84,7 +85,7 @@ public class SysLoginService
         {
             throw new ServiceException(userResult.getMsg());
         }
-        
+
         LoginUser userInfo = userResult.getData();
         SysUser user = userResult.getData().getSysUser();
         if (UserStatus.DELETED.getCode().equals(user.getDelFlag()))
@@ -157,5 +158,22 @@ public class SysLoginService
             throw new ServiceException(registerResult.getMsg());
         }
         recordLogService.recordLogininfor(username, Constants.REGISTER, "注册成功");
+    }
+
+    public void socialRegister(AuthUser authUserData) {
+        SysUser sysUser = new SysUser();
+        sysUser.setUserName(authUserData.getUsername());
+        sysUser.setNickName(authUserData.getNickname());
+        sysUser.setPassword(SecurityUtils.encryptPassword("123456"));
+        R<Boolean> booleanR = remoteUserService.registerUserInfo(sysUser, SecurityConstants.INNER);
+        if (R.FAIL == booleanR.getCode())
+        {
+            throw new ServiceException(booleanR.getMsg());
+        }
+        recordLogService.recordLogininfor(authUserData.getUsername(), Constants.REGISTER, "注册成功");
+    }
+
+    public boolean isHaveLogined(String username) {
+        return false;
     }
 }

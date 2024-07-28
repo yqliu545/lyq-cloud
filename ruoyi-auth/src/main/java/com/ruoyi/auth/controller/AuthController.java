@@ -7,6 +7,7 @@ import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.nacos.client.utils.ValidatorUtils;
 import com.ruoyi.auth.form.LoginBody;
 import com.ruoyi.auth.form.RegisterBody;
+import com.ruoyi.auth.service.SysLoginService;
 import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.domain.model.SocialLoginBody;
@@ -43,7 +44,8 @@ import java.util.concurrent.TimeUnit;
 public class AuthController {
     @Autowired
     private  SocialProperties socialProperties;
-//    private final SysLoginService loginService;
+    @Autowired
+    private  SysLoginService loginService;
 //    private final SysRegisterService registerService;
 //    private final ISysConfigService configService;
 //    private final ISysTenantService tenantService;
@@ -128,7 +130,8 @@ public class AuthController {
         if (!response.ok()) {
             return R.fail(response.getMsg());
         }
-//        loginService.socialRegister(authUserData);
+        //先判断再注册
+        loginService.socialRegister(authUserData);
         return R.ok();
     }
 
