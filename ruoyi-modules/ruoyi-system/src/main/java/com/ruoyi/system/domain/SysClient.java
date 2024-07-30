@@ -3,7 +3,6 @@ import com.ruoyi.common.core.web.domain.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.io.Serial;
 
 /**
  * 授权管理对象 sys_client

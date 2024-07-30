@@ -2,10 +2,12 @@ package com.ruoyi.system.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import javax.validation.Validator;
 
 import com.ruoyi.system.api.model.LoginUser;
+import com.ruoyi.system.service.ISysPermissionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +68,9 @@ public class SysUserServiceImpl implements ISysUserService
 
     @Autowired
     protected Validator validator;
+
+    @Autowired
+    private ISysPermissionService permissionService;
 
     /**
      * 根据条件分页查询用户列表
@@ -549,7 +554,7 @@ public class SysUserServiceImpl implements ISysUserService
         }
         return successMsg.toString();
     }
-
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public LoginUser save(String username) {
         //新增用户
@@ -561,8 +566,23 @@ public class SysUserServiceImpl implements ISysUserService
         //绑定部门
 
         //绑定角色
-        
-        return null;
+        List<SysUserRole> list = new ArrayList<>();
+        SysUserRole sysUserRole = new SysUserRole();
+        sysUserRole.setUserId(sysUser1.getUserId());
+        sysUserRole.setRoleId(100l);
+        list.add(sysUserRole);
+        userRoleMapper.batchUserRole(list);
+        List<SysRole> sysRoles = roleMapper.selectRolesByUserName(username);
+        sysUser1.setRoles(sysRoles);
+        Set<String> menuPermission = permissionService.getMenuPermission(sysUser1);
+        Set<String> rolePermission = permissionService.getRolePermission(sysUser1);
+        LoginUser loginUser = new LoginUser();
+        loginUser.setSysUser(sysUser1);
+        loginUser.setUserid(sysUser1.getUserId());
+        loginUser.setUsername(username);
+        loginUser.setPermissions(menuPermission);
+        loginUser.setRoles(rolePermission);
+        return loginUser;
     }
 
 }

@@ -79,10 +79,9 @@ public class AuthController {
 
         //获取用户信息
 //        LoginVo loginVo = IAuthStrategy.login(body, client, grantType);
-        //feign 查询是否有用户，没有新增
-//        SysClient client = clientService.queryByClientId(clientId);
         //新增用户
-        LoginUser loginUser = new LoginUser();
+        LoginUser loginUser = loginService.isHaveLogined(authUserData.getUsername());
+        //feign->新增用户相关表sys_social
 
         //创建token
         Map<String, Object> token = tokenService.createToken(loginUser);
