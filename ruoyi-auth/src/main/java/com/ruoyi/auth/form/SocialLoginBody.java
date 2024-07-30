@@ -1,4 +1,4 @@
-package com.ruoyi.common.core.domain.model;
+package com.ruoyi.auth.form;
 
 
 import lombok.Data;
@@ -14,7 +14,7 @@ import javax.validation.constraints.NotBlank;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class SocialLoginBody extends LoginBody {
+public class SocialLoginBody extends LoginBody2 {
 
     /**
      * 第三方登录平台

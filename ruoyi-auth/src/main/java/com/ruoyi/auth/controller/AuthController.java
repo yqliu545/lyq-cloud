@@ -2,36 +2,32 @@ package com.ruoyi.auth.controller;
 
 
 import cn.hutool.core.codec.Base64;
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.nacos.client.utils.ValidatorUtils;
+import com.ruoyi.auth.domain.vo.LoginVo;
 import com.ruoyi.auth.form.LoginBody;
-import com.ruoyi.auth.form.RegisterBody;
+import com.ruoyi.auth.form.LoginBody2;
+import com.ruoyi.auth.service.IAuthStrategy;
 import com.ruoyi.auth.service.SysLoginService;
-import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.domain.R;
-import com.ruoyi.common.core.domain.model.SocialLoginBody;
-import com.ruoyi.common.core.exception.auth.NotLoginException;
+import com.ruoyi.auth.form.SocialLoginBody;
+import com.ruoyi.common.core.exception.ServiceException;
 import com.ruoyi.common.json.utils.JsonUtils;
+import com.ruoyi.common.security.service.TokenService;
 import com.ruoyi.common.social.config.properties.SocialLoginConfigProperties;
 import com.ruoyi.common.social.config.properties.SocialProperties;
 import com.ruoyi.common.social.utils.SocialUtils;
+import com.ruoyi.system.api.model.LoginUser;
 import me.zhyd.oauth.model.AuthResponse;
 import me.zhyd.oauth.model.AuthUser;
 import me.zhyd.oauth.request.AuthRequest;
 import me.zhyd.oauth.utils.AuthStateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 认证
@@ -46,6 +42,8 @@ public class AuthController {
     private  SocialProperties socialProperties;
     @Autowired
     private  SysLoginService loginService;
+    @Autowired
+    private TokenService tokenService;
 //    private final SysRegisterService registerService;
 //    private final ISysConfigService configService;
 //    private final ISysTenantService tenantService;
@@ -61,35 +59,40 @@ public class AuthController {
      * @return 结果
      */
 //    @ApiEncrypt
-//    @PostMapping("/login")
-//    public R<LoginVo> login(@RequestBody String body) {
-//        LoginBody loginBody = JsonUtils.parseObject(body, LoginBody.class);
-//        ValidatorUtils.validate(loginBody);
-//        // 授权类型和客户端id
-//        String clientId = loginBody.getClientId();
-//        String grantType = loginBody.getGrantType();
-//        SysClientVo client = clientService.queryByClientId(clientId);
-//        // 查询不到 client 或 client 内不包含 grantType
-//        if (ObjectUtil.isNull(client) || !StringUtils.contains(client.getGrantType(), grantType)) {
-//            log.info("客户端id: {} 认证类型：{} 异常!.", clientId, grantType);
-//            return R.fail(MessageUtils.message("auth.grant.type.error"));
-//        } else if (!UserConstants.NORMAL.equals(client.getStatus())) {
-//            return R.fail(MessageUtils.message("auth.grant.type.blocked"));
-//        }
-//        // 校验租户
-//        loginService.checkTenant(loginBody.getTenantId());
-//        // 登录
+    @PostMapping("/social/login")
+    public R<LoginVo> login(@RequestBody String body) {
+        LoginBody2 loginBody = JsonUtils.parseObject(body, LoginBody2.class);
+
+
+        // 授权类型和客户端id
+        String clientId = loginBody.getClientId();
+        String grantType = loginBody.getGrantType();
+
+        SocialLoginBody loginBody2 = JsonUtils.parseObject(body, SocialLoginBody.class);
+        AuthResponse<AuthUser> response = SocialUtils.loginAuth(
+                loginBody2.getSource(), loginBody2.getSocialCode(),
+                loginBody2.getSocialState(), socialProperties);
+        if (!response.ok()) {
+            throw new ServiceException(response.getMsg());
+        }
+        AuthUser authUserData = response.getData();
+
+        //获取用户信息
 //        LoginVo loginVo = IAuthStrategy.login(body, client, grantType);
-//
-//        Long userId = LoginHelper.getUserId();
-//        scheduledExecutorService.schedule(() -> {
-//            WebSocketMessageDto dto = new WebSocketMessageDto();
-//            dto.setMessage("欢迎登录RuoYi-Vue-Plus后台管理系统");
-//            dto.setSessionKeys(List.of(userId));
-//            WebSocketUtils.publishMessage(dto);
-//        }, 3, TimeUnit.SECONDS);
-//        return R.ok(loginVo);
-//    }
+        //feign 查询是否有用户，没有新增
+//        SysClient client = clientService.queryByClientId(clientId);
+        //新增用户
+        LoginUser loginUser = new LoginUser();
+
+        //创建token
+        Map<String, Object> token = tokenService.createToken(loginUser);
+        //封装loginVo
+        LoginVo loginVo = new LoginVo();
+        loginVo.setClientId(clientId);
+        loginVo.setAccessToken(token.get("access_token").toString());
+        loginVo.setExpireIn((long)token.get("expire_in"));
+        return R.ok(loginVo);
+    }
 
     /**
      * 第三方登录请求

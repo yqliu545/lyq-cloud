@@ -41,7 +41,7 @@ import com.ruoyi.system.service.ISysUserService;
 
 /**
  * 用户信息
- * 
+ *
  * @author ruoyi
  */
 @RestController
@@ -161,7 +161,7 @@ public class SysUserController extends BaseController
 
     /**
      * 获取用户信息
-     * 
+     *
      * @return 用户信息
      */
     @GetMapping("getInfo")
@@ -337,5 +337,35 @@ public class SysUserController extends BaseController
     public AjaxResult deptTree(SysDept dept)
     {
         return success(deptService.selectDeptTreeList(dept));
+    }
+
+
+    /**
+     * 第三方登录，有返回，灭有新增
+     * @param username
+     * @return
+     */
+    @InnerAuth
+    @GetMapping("/isHaveandSave/{username}")
+    public R<LoginUser> isHaveandSave(@PathVariable("username") String username)
+    {
+        SysUser sysUser = userService.selectUserByUserName(username);
+        if (StringUtils.isNull(sysUser))
+        {
+
+            LoginUser loginUser=userService.save(username);
+
+            //绑定角色
+            return R.ok(loginUser);
+        }
+        // 角色集合
+        Set<String> roles = permissionService.getRolePermission(sysUser);
+        // 权限集合
+        Set<String> permissions = permissionService.getMenuPermission(sysUser);
+        LoginUser sysUserVo = new LoginUser();
+        sysUserVo.setSysUser(sysUser);
+        sysUserVo.setRoles(roles);
+        sysUserVo.setPermissions(permissions);
+        return R.ok(sysUserVo);
     }
 }

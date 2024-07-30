@@ -1,4 +1,4 @@
-package com.ruoyi.common.core.domain.model;
+package com.ruoyi.auth.form;
 
 
 import lombok.Data;
@@ -14,7 +14,7 @@ import java.io.Serializable;
  */
 
 @Data
-public class LoginBody implements Serializable {
+public class LoginBody2 implements Serializable {
 
 
     private static final long serialVersionUID = 1L;

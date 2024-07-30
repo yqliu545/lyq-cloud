@@ -173,7 +173,10 @@ public class SysLoginService
         recordLogService.recordLogininfor(authUserData.getUsername(), Constants.REGISTER, "注册成功");
     }
 
-    public boolean isHaveLogined(String username) {
-        return false;
+    //查询用户信息通过username
+    public LoginUser isHaveLogined(String username) {
+        R<LoginUser> loginUser=remoteUserService.isHaveandSave(username, SecurityConstants.INNER);
+
+        return loginUser.getData();
     }
 }

@@ -16,7 +16,7 @@ import com.ruoyi.system.api.model.LoginUser;
 
 /**
  * 用户服务
- * 
+ *
  * @author ruoyi
  */
 @FeignClient(contextId = "remoteUserService", value = ServiceNameConstants.SYSTEM_SERVICE, fallbackFactory = RemoteUserFallbackFactory.class)
@@ -51,4 +51,7 @@ public interface RemoteUserService
      */
     @PutMapping("/user/recordlogin")
     public R<Boolean> recordUserLogin(@RequestBody SysUser sysUser, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
+
+    @GetMapping("/user/isHaveandSave/{username}")
+    R<LoginUser> isHaveandSave(@RequestBody String username, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 }
