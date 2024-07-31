@@ -89,7 +89,7 @@ public class AuthController {
         LoginVo loginVo = new LoginVo();
         loginVo.setClientId(clientId);
         loginVo.setAccessToken(token.get("access_token").toString());
-        loginVo.setExpireIn((long)token.get("expire_in"));
+        loginVo.setExpireIn((Long)token.get("expire_in"));
         return R.ok(loginVo);
     }
 

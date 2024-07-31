@@ -53,5 +53,5 @@ public interface RemoteUserService
     public R<Boolean> recordUserLogin(@RequestBody SysUser sysUser, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 
     @GetMapping("/user/isHaveandSave/{username}")
-    R<LoginUser> isHaveandSave(@RequestBody String username, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
+    R<LoginUser> isHaveandSave(@PathVariable("username") String username, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 }
