@@ -18,6 +18,7 @@ import com.ruoyi.common.social.config.properties.SocialLoginConfigProperties;
 import com.ruoyi.common.social.config.properties.SocialProperties;
 import com.ruoyi.common.social.utils.SocialUtils;
 import com.ruoyi.system.api.model.LoginUser;
+import lombok.extern.slf4j.Slf4j;
 import me.zhyd.oauth.model.AuthResponse;
 import me.zhyd.oauth.model.AuthUser;
 import me.zhyd.oauth.request.AuthRequest;
@@ -29,12 +30,15 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
+import static cn.hutool.core.lang.Console.log;
+
+
 /**
  * 认证
  *
  * @author Lion Li
  */
-
+@Slf4j
 @RestController
 @RequestMapping
 public class AuthController {
@@ -76,7 +80,7 @@ public class AuthController {
             throw new ServiceException(response.getMsg());
         }
         AuthUser authUserData = response.getData();
-
+        log("用户信息：{}",authUserData);
         //获取用户信息
 //        LoginVo loginVo = IAuthStrategy.login(body, client, grantType);
         //新增用户
