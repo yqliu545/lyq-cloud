@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public interface AliPayService {
 
-    void makeOrder(Order order);
+    String makeOrder(Order order);
 
     void makeQRCode(String url, HttpServletResponse response);
 

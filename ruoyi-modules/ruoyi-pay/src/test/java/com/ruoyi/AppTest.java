@@ -1,38 +1,31 @@
 package com.ruoyi;
 
-import junit.framework.Test;
+import com.ruoyi.pay.RuoYiPayApplication;
+import com.ruoyi.pay.domain.Order;
+import com.ruoyi.pay.service.AliPayService;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.apache.poi.sl.usermodel.ObjectMetaData;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  * Unit test for simple App.
  */
-public class AppTest 
-    extends TestCase
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = RuoYiPayApplication.class)
+public class AppTest extends TestCase
 {
-    /**
-     * Create the test case
-     *
-     * @param testName name of the test case
-     */
-    public AppTest( String testName )
+    @Autowired
+    private AliPayService aliPayService;
+    @Test
+    public void testpay()
     {
-        super( testName );
-    }
-
-    /**
-     * @return the suite of tests being tested
-     */
-    public static Test suite()
-    {
-        return new TestSuite( AppTest.class );
-    }
-
-    /**
-     * Rigourous Test :-)
-     */
-    public void testApp()
-    {
-        assertTrue( true );
+        Order order = new Order();
+        aliPayService.makeOrder(order);
     }
 }

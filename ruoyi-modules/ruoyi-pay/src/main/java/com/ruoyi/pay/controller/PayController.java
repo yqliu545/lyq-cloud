@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
-@RestController("/alipay")
+@RestController
+@RequestMapping("/alipay")
 public class PayController {
 
     @Autowired
@@ -18,10 +20,12 @@ public class PayController {
 
     //下单
     @PostMapping("/makeOrder")
-    public R<String> makeOrder(@RequestBody Order order){
-
-        aliPayService.makeOrder(order);
-        return R.ok();
+    public R<String> makeOrder(@RequestBody Order order,HttpServletResponse response) throws IOException {
+//        response.setContentType("text/html;charset=utf-8");
+//        response.getWriter().write(aliPayService.makeOrder(order));
+//        response.getWriter().flush();
+//        response.getWriter().close();
+        return R.ok(aliPayService.makeOrder(order));
     }
     //生成支付二维码
     @GetMapping("/code")
