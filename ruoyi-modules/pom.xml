@@ -15,6 +15,7 @@
         <module>ruoyi-file</module>
         <module>ruoyi-pay</module>
         <module>ruoyi-sms</module>
+        <module>ruoyi-order</module>
     </modules>
 
     <artifactId>ruoyi-modules</artifactId>
