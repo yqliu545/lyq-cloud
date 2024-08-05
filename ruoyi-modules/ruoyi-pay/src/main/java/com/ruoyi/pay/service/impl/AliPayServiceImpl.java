@@ -38,7 +38,7 @@ public class AliPayServiceImpl implements AliPayService {
 //        model.setStoreId("2088721025990492");
 
         // 设置订单绝对超时时间
-        model.setTimeExpire("2024-08-7 10:05:01");
+//        model.setTimeExpire("2024-08-7 10:05:01");
 
         // 设置业务扩展参数
 //        ExtendParams extendParams = new ExtendParams();
@@ -52,7 +52,7 @@ public class AliPayServiceImpl implements AliPayService {
 //        model.setExtendParams(extendParams);
 
         // 设置订单标题
-        model.setSubject("Iphone6 16G");
+        model.setSubject("Iphone616G");
 
         // 设置请求来源地址
 //        model.setRequestFromUrl("https://");
@@ -61,13 +61,13 @@ public class AliPayServiceImpl implements AliPayService {
         model.setProductCode("FAST_INSTANT_TRADE_PAY");
 
         // 设置PC扫码支付的方式
-        model.setQrPayMode("1");
-
-        // 设置商户自定义二维码宽度
-        model.setQrcodeWidth(100L);
-
-        // 设置请求后页面的集成方式
-        model.setIntegrationType("PCWEB");
+//        model.setQrPayMode("1");
+//
+//        // 设置商户自定义二维码宽度
+//        model.setQrcodeWidth(100L);
+//
+//        // 设置请求后页面的集成方式
+//        model.setIntegrationType("PCWEB");
 
         // 设置订单包含的商品列表信息
 //        List<GoodsDetail> goodsDetail = new ArrayList<GoodsDetail>();
@@ -118,7 +118,7 @@ public class AliPayServiceImpl implements AliPayService {
 //        model.setExtUserInfo(extUserInfo);
 
         // 设置订单总金额
-        model.setTotalAmount("885.88");
+        model.setTotalAmount(String.valueOf(10));
 
         // 设置商户传入业务信息
 //        model.setBusinessParams("{\"mc_create_trade_ip\":\"127.0.0.1\"}");
@@ -127,6 +127,7 @@ public class AliPayServiceImpl implements AliPayService {
 //        model.setPromoParams("{\"storeIdType\":\"1\"}");
 
         request.setBizModel(model);
+
         // 第三方代调用模式下请设置app_auth_token
         // request.putOtherTextParam("app_auth_token", "<-- 请填写应用授权令牌 -->");
 
