@@ -9,8 +9,10 @@ import com.alipay.api.domain.*;
 import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.alipay.api.response.AlipayTradePagePayResponse;
 import com.ruoyi.common.core.utils.DateUtils;
+import com.ruoyi.pay.config.PayProperties;
 import com.ruoyi.pay.domain.Order;
 import com.ruoyi.pay.service.AliPayService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +22,9 @@ import java.util.List;
 
 @Service
 public class AliPayServiceImpl implements AliPayService {
+    @Autowired
+    private PayProperties payProperties;
+
     @Override
     public String makeOrder(Order order) {
         // 初始化SDK
@@ -61,13 +66,13 @@ public class AliPayServiceImpl implements AliPayService {
         model.setProductCode("FAST_INSTANT_TRADE_PAY");
 
         // 设置PC扫码支付的方式
-//        model.setQrPayMode("1");
-//
+        model.setQrPayMode("1");
+
 //        // 设置商户自定义二维码宽度
-//        model.setQrcodeWidth(100L);
-//
+        model.setQrcodeWidth(100L);
+
 //        // 设置请求后页面的集成方式
-//        model.setIntegrationType("PCWEB");
+        model.setIntegrationType("PCWEB");
 
         // 设置订单包含的商品列表信息
 //        List<GoodsDetail> goodsDetail = new ArrayList<GoodsDetail>();
@@ -127,7 +132,7 @@ public class AliPayServiceImpl implements AliPayService {
 //        model.setPromoParams("{\"storeIdType\":\"1\"}");
 
         request.setBizModel(model);
-
+//        request.setNotifyUrl(payProperties.getNotifyUrl());
         // 第三方代调用模式下请设置app_auth_token
         // request.putOtherTextParam("app_auth_token", "<-- 请填写应用授权令牌 -->");
 
@@ -171,10 +176,20 @@ public class AliPayServiceImpl implements AliPayService {
 
     }
 
-    private static AlipayConfig getAlipayConfig() {
+    private AlipayConfig getAlipayConfig() {
+        AlipayConfig alipayConfig = new AlipayConfig();
+        //真的
+//        alipayConfig.setAppId(payProperties.getAppId());
+//        alipayConfig.setAlipayPublicKey(payProperties.getAlipayPublicKey());
+//        alipayConfig.setPrivateKey(payProperties.getPrivateKey());
+//        alipayConfig.setFormat(payProperties.getFormat());
+//        alipayConfig.setCharset(payProperties.getCharset());
+//        alipayConfig.setServerUrl(payProperties.getServerUrl());
+//        alipayConfig.setSignType(payProperties.getSignType());
+
+
         String privateKey  = "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCGJ0BpDDQ5RpfAbPiHMKjDhPR3z/IBvg66pdmmDOleHqdG2PrzGdbVGVp/WrJNjcSy6BagXhAdiQ7cSNkoErOBZoOzA5clSKMqhVXRVnLeGyxVBDHG3alPYZFYI+VEnIYmehtAoCkiFwKYszjBF08Nz2TQDJ4YbAC4F4UWtvtIARhR8nO7eouXvZYtVWKnUCnPitbrecHi3PDlkJ7bgE1nGOnlwzOXuF/2+kv22CUjXXwYJWjGK4+nr2EgqRTS1NJp8DJ1Wnqwi42wTszCoOEw6POKlPL2r+z0ZSpH3jdX+ip1LweouF6Sr5GRUvqQBMnPwtYdwqXhG6xtXmUBvUXDAgMBAAECggEADuPIaGBsY3cMXNU7eHXUJW9aWvn/mGXp6JmD4MRKGqI4Wsq2f8j8aUaZHs2IQMddb6YG7OHD1CNkPNrxD1uUBObF81aQrhiz04JdFhEMSs6lSwJeK/5qTl877JZ/WfAti5O99pxQNHJtXVl3ESdvJM9CFz1vRrKmGciyguToWwNq0avbQuT7cWczWKRmPjYJw+I2Ib7AJXDW0EkCYy5aFgWV0Avgfb7u8A2QRMJUe3Uk/YWEy3PisMMVz0VAeLrxIi4d7EW0BRuEvPDsvAANJhMbFaJSkoxgB34d8dXWL8nqWidV32joxVijRD6s8fEFqIeulIIAE5DDeKGS6N1LUQKBgQDJbQCnVB9UyRvlT5y9MD7Wv/nvByBSha36ZaQQzXYXhIyL3fU+QQm6rs1vgTSU3eQdKDZro8Dhedln+PxY/MgFJmV03eE4AL3OYhWrJTu1NFCeZqNBCDRUawzeDEtg86GwrRyUoaUkg00CYIZT344z9vBFnWm+L/F4g3BGh/FFfQKBgQCqgDIrnKGXA3hY0Q95PXsMLuOuYwQhBAm4BrkB6AEoAWPCapHCCgze5Q0+66hybzolnkQTjc3sButZ2uow9jzhowOXtZzdyutQx91tdc9GqMEd3Ctn2mOSxPVIOOgTgG08MJvYXBNufWv4P5U20lIje5UBrZYNJ1DzLa083imcPwKBgAR0FYSdlofAXo6GYRfJvknvOq5vQOayL/OOVb9NW6QPeTAKe0aiF336KW6is6/q7AU9A18D4trZX9Ytqh6pkB6VB786vKUJVyj+AC6lhxlti67E5C0m6klHiKRML0p4eIW4fh5HKKiTApvf2Hh4Q+OgPRW88j6TPsqEVXIpxUrdAoGAOw5kUk7SeaguCzV+kpQFBtdG7aRGTdlENIW/lzVxERZKI5EeI4OvqZTU3bJqihiUn2sOUWeQp+xNoLX+4C6qL81y9R1m1Dvw/e38eGmR/ft9yIX2UuaGDtRB0V5EpFybeXmswWhDIsY2m6oKWQ7IfJnVptslWjEADPsJQkgBSakCgYEAr9YW/jxzlSk6+476sEjfIiEoxLlB6PRlPa+KdsGKESABGeDhq+7lJvAG+8aHQ7B0+MsSok6shyGOmGd5bK4vNu/tcJUvqu8svidlNZ3yLC3SfOTN9IjeGLAjHKOxkj+OSHAERMD2pwt8xl2opVB+pmCe02j06JGZQ4kNlWTHEIg=";
         String alipayPublicKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2nE6SCwuzE30mpihAOrXZWE6UP4wTA7IOsEVkY2WKCNhn9H1gngyCy5bHuTQTkBSicmMEKZwh+SEV1pQzOfb7CiXyVyZNz/eC0MueWW1j1DFlXkxt3BMp7xCRhkYRTzX5Mmg0J8ShQRVri1xECs86FT1jA1+w34qwKVtz7iAX6VSiZ8NyM7pfKZeVTYwy4B5Pj1mLFlPbZXKUIwO7qACwCCSFT1cA1F6LtXWqB1pUWpBqcX+AEueLSa2d0egCDbAGcHZxj2TbxuazhSLFSaNDQsVvGrxChx+3wNU43BPuos5QwhX162AweyhHVDtdqacJAQMc58E45PR5rzJYi4rFwIDAQAB";
-        AlipayConfig alipayConfig = new AlipayConfig();
         alipayConfig.setServerUrl("https://openapi-sandbox.dl.alipaydev.com/gateway.do");
         alipayConfig.setAppId("9021000133641194");
         alipayConfig.setPrivateKey(privateKey);
