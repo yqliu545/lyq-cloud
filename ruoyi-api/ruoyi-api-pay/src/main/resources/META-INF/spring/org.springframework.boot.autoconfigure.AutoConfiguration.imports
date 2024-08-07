@@ -1,1 +1,1 @@
-com.ruoyi.system.api.factory.AliPayFallbackFactory
+com.ruoyi.pay.api.factory.AliPayFallbackFactory

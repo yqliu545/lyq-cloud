@@ -71,7 +71,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         from pay_info
         where order_no = #{order_no}
     </select>
-
+    <select id="selectOrderByOrderNo" parameterType="String" resultMap="OrderResult">
+        select id, order_no, merchandise_id, user_id, number, payment, status, payment_type, end_time, payment_time, create_by, create_time, update_by, update_time, remark
+        from order
+        where order_no = #{orderNo}
+    </select>
+    
     <insert id="insertOrder" parameterType="Order" useGeneratedKeys="true" keyColumn="id">
         insert into order
         <trim prefix="(" suffix=")" suffixOverrides=",">

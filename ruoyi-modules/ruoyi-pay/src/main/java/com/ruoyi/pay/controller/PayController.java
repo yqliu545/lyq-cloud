@@ -8,6 +8,8 @@ import com.ruoyi.pay.config.PayProperties;
 import com.ruoyi.pay.domain.AliPayParams;
 import com.ruoyi.pay.domain.Order;
 import com.ruoyi.pay.service.AliPayService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +23,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/alipay")
 public class PayController {
+
+    private static final Logger log = LoggerFactory.getLogger(PayController.class);
 
     @Autowired
     private PayProperties payProperties;
@@ -60,10 +64,11 @@ public class PayController {
         if (signVerified) {
             //修改订单状态，根据商户订单号查询订单信息
 //            aliPayService.alipayCallback(request,response);
-            response.sendRedirect("");
+            log.info("支付成功同步通知=>{}",outTradeNo);
+            response.sendRedirect("http://127.0.0.1:80/index");
         }else {
             //验签失败
-            response.sendRedirect("");
+            response.sendRedirect("http://127.0.0.1:80/index");
         }
 
 
@@ -94,16 +99,16 @@ public class PayController {
         if (signVerified) {
             if (trade_status.equals("TRADE_FINISHED")||trade_status.equals("TRADE_SUCCESS")) {
                 //修改订单状态，根据商户订单号查询订单信息
-
+                log.info("支付成功异步通知=>{}",outTradeNo);
             }else {
                 //失败
                 return "failure";
             }
-
         }else {
             //验签失败
             return "failure";
         }
+
         return "success";
 
     }

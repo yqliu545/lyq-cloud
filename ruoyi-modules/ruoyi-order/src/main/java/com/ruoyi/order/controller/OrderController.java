@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.common.core.domain.R;
+import com.ruoyi.common.security.annotation.InnerAuth;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -110,5 +111,12 @@ public class OrderController extends BaseController
     @PostMapping("/makeOrder")
     public R<String> makeOrder(@RequestBody Order order, HttpServletResponse response) throws IOException {
         return R.ok(orderService.makeOrder(order));
+    }
+
+    //收到支付成功后修改订单状态
+    @InnerAuth
+    @GetMapping("/updateStatus/{orderNo}")
+    public R<Boolean> updateOrderStatus(@PathVariable("orderNo") String orderNo){
+        return R.ok(orderService.handleOrderStatus(orderNo));
     }
 }

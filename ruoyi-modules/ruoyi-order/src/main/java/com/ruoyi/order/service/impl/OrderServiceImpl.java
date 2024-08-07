@@ -142,6 +142,19 @@ public class OrderServiceImpl implements IOrderService
         return form.getData();
     }
 
+    @Override
+    public Boolean handleOrderStatus(String orderNo) {
+        //查询订单
+        Order order=orderMapper.selectOrderByOrderNo(orderNo);
+        //修改状态
+        order.setStatus("1");
+        int i = orderMapper.updateOrder(order);
+        if (i>0){
+            return true;
+        }
+        return false;
+    }
+
     /**
      * 新增支付信息信息
      *

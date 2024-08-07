@@ -8,7 +8,7 @@ import com.ruoyi.common.core.web.domain.BaseEntity;
 
 /**
  * 商品对象 merchandise
- * 
+ *
  * @author lyq
  * @date 2024-08-07
  */
@@ -33,7 +33,7 @@ public class Merchandise extends BaseEntity
 
     /** 商品属性 */
     @Excel(name = "商品属性")
-    private String 
+    private String
 
 attribute;
 
@@ -57,105 +57,91 @@ attribute;
     @Excel(name = "描述")
     private String description;
 
-    public void setMerchandiseId(Long merchandiseId) 
+    public void setMerchandiseId(Long merchandiseId)
     {
         this.merchandiseId = merchandiseId;
     }
 
-    public Long getMerchandiseId() 
+    public Long getMerchandiseId()
     {
         return merchandiseId;
     }
-    public void setName(String name) 
+    public void setName(String name)
     {
         this.name = name;
     }
 
-    public String getName() 
+    public String getName()
     {
         return name;
     }
-    public void setType(String type) 
+    public void setType(String type)
     {
         this.type = type;
     }
 
-    public String getType() 
+    public String getType()
     {
         return type;
     }
-    public void setCategoryId(Long categoryId) 
+    public void setCategoryId(Long categoryId)
     {
         this.categoryId = categoryId;
     }
 
-    public Long getCategoryId() 
+    public Long getCategoryId()
     {
         return categoryId;
     }
-    public void set
+    public void setAttribute(String attribute)
+    {this.attribute = attribute;}
 
-attribute(String 
-
-attribute) 
+    public String getAttribute()
     {
-        this.
-
-attribute = 
-
-attribute;
+        return attribute;
     }
-
-    public String get
-
-attribute() 
-    {
-        return 
-
-attribute;
-    }
-    public void setPrice(BigDecimal price) 
+    public void setPrice(BigDecimal price)
     {
         this.price = price;
     }
 
-    public BigDecimal getPrice() 
+    public BigDecimal getPrice()
     {
         return price;
     }
-    public void setStatus(String status) 
+    public void setStatus(String status)
     {
         this.status = status;
     }
 
-    public String getStatus() 
+    public String getStatus()
     {
         return status;
     }
-    public void setStock(Long stock) 
+    public void setStock(Long stock)
     {
         this.stock = stock;
     }
 
-    public Long getStock() 
+    public Long getStock()
     {
         return stock;
     }
-    public void setMainImage(String mainImage) 
+    public void setMainImage(String mainImage)
     {
         this.mainImage = mainImage;
     }
 
-    public String getMainImage() 
+    public String getMainImage()
     {
         return mainImage;
     }
-    public void setDescription(String description) 
+    public void setDescription(String description)
     {
         this.description = description;
     }
 
-    public String getDescription() 
+    public String getDescription()
     {
         return description;
     }
@@ -167,11 +153,7 @@ attribute;
             .append("name", getName())
             .append("type", getType())
             .append("categoryId", getCategoryId())
-            .append("
-
-attribute", get
-
-attribute())
+            .append(" attribute", getAttribute())
             .append("price", getPrice())
             .append("status", getStatus())
             .append("stock", getStock())

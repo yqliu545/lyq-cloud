@@ -26,7 +26,7 @@ public class AliPayFallbackFactory implements FallbackFactory<AliPayServiceFeign
         {
             @Override
             public R<String> pay(AliPayParams aliPayParams, String source) {
-                return null;
+                return R.fail("支付失败"+throwable.getMessage());
             }
 
         };

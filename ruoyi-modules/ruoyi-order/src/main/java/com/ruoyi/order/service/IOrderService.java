@@ -1,6 +1,8 @@
 package com.ruoyi.order.service;
 
 import java.util.List;
+
+import com.ruoyi.common.core.domain.R;
 import com.ruoyi.order.domain.Order;
 
 /**
@@ -61,4 +63,5 @@ public interface IOrderService
 
     String makeOrder(Order order);
 
+    Boolean handleOrderStatus(String orderNo);
 }

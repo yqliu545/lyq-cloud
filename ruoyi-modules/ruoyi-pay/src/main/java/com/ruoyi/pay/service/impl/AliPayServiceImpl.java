@@ -67,7 +67,7 @@ public class AliPayServiceImpl implements AliPayService {
         model.setProductCode("FAST_INSTANT_TRADE_PAY");
 
         // 设置PC扫码支付的方式
-        model.setQrPayMode("1");
+//        model.setQrPayMode("0");
 
 //        // 设置商户自定义二维码宽度
         model.setQrcodeWidth(100L);
@@ -134,7 +134,7 @@ public class AliPayServiceImpl implements AliPayService {
 
         request.setBizModel(model);
         request.setReturnUrl("http://127.0.0.1:8080/pay/alipay/returnUrl");
-//        request.setNotifyUrl(payProperties.getNotifyUrl());
+        request.setNotifyUrl("http://127.0.0.1:8080/pay/alipay/notifyUrl");
         // 第三方代调用模式下请设置app_auth_token
         // request.putOtherTextParam("app_auth_token", "<-- 请填写应用授权令牌 -->");
 
