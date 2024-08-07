@@ -225,7 +225,7 @@
                 <artifactId>ruoyi-api-system</artifactId>
                 <version>${ruoyi.version}</version>
             </dependency>
-    
+
             <!-- hutool 的依赖配置-->
             <dependency>
                 <groupId>cn.hutool</groupId>
@@ -233,6 +233,11 @@
                 <version>${hutool.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
             </dependency>
             <!-- JustAuth 的依赖配置-->
             <dependency>

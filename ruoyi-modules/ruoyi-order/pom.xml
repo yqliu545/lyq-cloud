@@ -92,5 +92,10 @@
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-common-swagger</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-api-pay</artifactId>
+            <version>3.6.4</version>
+        </dependency>
     </dependencies>
 </project>

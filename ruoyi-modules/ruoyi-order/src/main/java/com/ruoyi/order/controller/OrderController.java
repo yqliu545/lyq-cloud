@@ -3,6 +3,8 @@ package com.ruoyi.order.controller;
 import java.util.List;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.common.core.domain.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +26,7 @@ import com.ruoyi.common.core.web.page.TableDataInfo;
 
 /**
  * 订单Controller
- * 
+ *
  * @author ruoyi
  * @date 2024-08-07
  */
@@ -101,5 +103,12 @@ public class OrderController extends BaseController
     public AjaxResult remove(@PathVariable String[] ids)
     {
         return toAjax(orderService.deleteOrderByIds(ids));
+    }
+
+
+    //下单
+    @PostMapping("/makeOrder")
+    public R<String> makeOrder(@RequestBody Order order, HttpServletResponse response) throws IOException {
+        return R.ok(orderService.makeOrder(order));
     }
 }

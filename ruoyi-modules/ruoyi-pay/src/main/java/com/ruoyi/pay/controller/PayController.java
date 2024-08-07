@@ -3,7 +3,9 @@ package com.ruoyi.pay.controller;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.utils.StringUtils;
+import com.ruoyi.common.security.annotation.InnerAuth;
 import com.ruoyi.pay.config.PayProperties;
+import com.ruoyi.pay.domain.AliPayParams;
 import com.ruoyi.pay.domain.Order;
 import com.ruoyi.pay.service.AliPayService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,22 +31,10 @@ public class PayController {
     //下单
     @PostMapping("/makeOrder")
     public R<String> makeOrder(@RequestBody Order order,HttpServletResponse response) throws IOException {
-//        response.setContentType("text/html;charset=utf-8");
-//        response.getWriter().write(aliPayService.makeOrder(order));
-//        response.getWriter().flush();
-//        response.getWriter().close();
         return R.ok(aliPayService.makeOrder(order));
     }
 
-    //检查订单状态
-    @RequestMapping("/checkOrder")
-    public String checkOrder(String tradeNo) throws Exception{
-        if (StringUtils.isEmpty(tradeNo)){
-            return null;
-        }
-        String status=aliPayService.checkAliOrder(tradeNo);
-        return status;
-    }
+
 
     //支付平台支付成功的同步回调
     @RequestMapping("/returnUrl")
@@ -69,7 +59,7 @@ public class PayController {
         boolean signVerified = AlipaySignature.rsaCheckV1(params, payProperties.getAlipayPublicKey(), payProperties.getCharset(), payProperties.getSignType());
         if (signVerified) {
             //修改订单状态，根据商户订单号查询订单信息
-            aliPayService.alipayCallback(request,response);
+//            aliPayService.alipayCallback(request,response);
             response.sendRedirect("");
         }else {
             //验签失败
@@ -81,7 +71,7 @@ public class PayController {
 
     //支付平台支付成功的异步回调
     @PostMapping("/notifyUrl")
-    public void notifyUrl(HttpServletRequest request,HttpServletResponse response) throws Exception{
+    public String notifyUrl(HttpServletRequest request,HttpServletResponse response) throws Exception{
         Map<String, String> params = new HashMap<>();
         Map parameterMap = request.getParameterMap();
         for (Iterator iter = parameterMap.keySet().iterator(); iter.hasNext();) {
@@ -107,14 +97,22 @@ public class PayController {
 
             }else {
                 //失败
-
+                return "failure";
             }
 
         }else {
             //验签失败
-
+            return "failure";
         }
+        return "success";
 
+    }
+
+
+    @InnerAuth
+    @PostMapping("/inpay")
+    public R<String> pay(@RequestBody AliPayParams aliPayParams){
+        return R.ok(aliPayService.pay(aliPayParams));
     }
 
 

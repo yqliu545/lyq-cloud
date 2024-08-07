@@ -1,7 +1,16 @@
 package com.ruoyi.order.service.impl;
 
 import java.util.List;
+
+import cn.hutool.core.date.DateUtil;
+import com.ruoyi.common.core.constant.SecurityConstants;
+import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.utils.DateUtils;
+import com.ruoyi.order.domain.Merchandise;
+import com.ruoyi.pay.api.AliPayServiceFeign;
+import com.ruoyi.pay.api.domain.AliPayParams;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
@@ -14,19 +23,25 @@ import com.ruoyi.order.service.IOrderService;
 
 /**
  * 订单Service业务层处理
- * 
+ *
  * @author ruoyi
  * @date 2024-08-07
  */
 @Service
-public class OrderServiceImpl implements IOrderService 
+public class OrderServiceImpl implements IOrderService
 {
     @Autowired
     private OrderMapper orderMapper;
 
+    @Autowired
+    private MerchandiseServiceImpl merchandiseService;
+
+    @Autowired
+    private AliPayServiceFeign aliPayServiceFeign;
+
     /**
      * 查询订单
-     * 
+     *
      * @param id 订单主键
      * @return 订单
      */
@@ -38,7 +53,7 @@ public class OrderServiceImpl implements IOrderService
 
     /**
      * 查询订单列表
-     * 
+     *
      * @param order 订单
      * @return 订单
      */
@@ -50,7 +65,7 @@ public class OrderServiceImpl implements IOrderService
 
     /**
      * 新增订单
-     * 
+     *
      * @param order 订单
      * @return 结果
      */
@@ -66,7 +81,7 @@ public class OrderServiceImpl implements IOrderService
 
     /**
      * 修改订单
-     * 
+     *
      * @param order 订单
      * @return 结果
      */
@@ -82,7 +97,7 @@ public class OrderServiceImpl implements IOrderService
 
     /**
      * 批量删除订单
-     * 
+     *
      * @param ids 需要删除的订单主键
      * @return 结果
      */
@@ -96,7 +111,7 @@ public class OrderServiceImpl implements IOrderService
 
     /**
      * 删除订单信息
-     * 
+     *
      * @param id 订单主键
      * @return 结果
      */
@@ -109,8 +124,27 @@ public class OrderServiceImpl implements IOrderService
     }
 
     /**
+     * 主页新增订单
+     * @param order
+     * @return
+     */
+    @Transactional
+    @Override
+    public String makeOrder(Order order) {
+        order.setCreateTime(DateUtils.getNowDate());
+        order.setOrderNo(getOrderNo());
+
+        orderMapper.insertOrder(order);
+        Merchandise merchandise = merchandiseService.selectMerchandiseByMerchandiseId(order.getMerchandiseId());
+        AliPayParams aliPayParams = new AliPayParams(order.getPayment().toString(), merchandise.getName(), order.getOrderNo());
+        //调用支付宝支付
+        R<String> form=aliPayServiceFeign.pay(aliPayParams, SecurityConstants.INNER);
+        return form.getData();
+    }
+
+    /**
      * 新增支付信息信息
-     * 
+     *
      * @param order 订单对象
      */
     public void insertPayInfo(Order order)
@@ -130,5 +164,11 @@ public class OrderServiceImpl implements IOrderService
                 orderMapper.batchPayInfo(list);
             }
         }
+    }
+
+    public static  synchronized String getOrderNo(){
+        String nowdate = DateUtils.parseDateToStr("yyyyMMddHHmmssSSS", DateUtils.getNowDate());
+        String randomNumeric = RandomStringUtils.randomNumeric(3);
+        return nowdate+randomNumeric;
     }
 }

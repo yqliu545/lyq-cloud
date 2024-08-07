@@ -10,6 +10,7 @@ import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.alipay.api.response.AlipayTradePagePayResponse;
 import com.ruoyi.common.core.utils.DateUtils;
 import com.ruoyi.pay.config.PayProperties;
+import com.ruoyi.pay.domain.AliPayParams;
 import com.ruoyi.pay.domain.Order;
 import com.ruoyi.pay.service.AliPayService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -132,6 +133,7 @@ public class AliPayServiceImpl implements AliPayService {
 //        model.setPromoParams("{\"storeIdType\":\"1\"}");
 
         request.setBizModel(model);
+        request.setReturnUrl("http://127.0.0.1:8080/pay/alipay/returnUrl");
 //        request.setNotifyUrl(payProperties.getNotifyUrl());
         // 第三方代调用模式下请设置app_auth_token
         // request.putOtherTextParam("app_auth_token", "<-- 请填写应用授权令牌 -->");
@@ -160,20 +162,53 @@ public class AliPayServiceImpl implements AliPayService {
 
     }
 
-    @Override
-    public void makeQRCode(String url, HttpServletResponse response) {
 
-    }
 
     @Override
-    public String checkAliOrder(String tradeNo) {
-
-        return null;
-    }
-
-    @Override
-    public void alipayCallback(HttpServletRequest request, HttpServletResponse response) {
-
+    public String pay(AliPayParams aliPayParams) {
+        // 初始化SDK
+        AlipayClient alipayClient = null;
+        try {
+            alipayClient = new DefaultAlipayClient(getAlipayConfig());
+        } catch (AlipayApiException e) {
+            e.printStackTrace();
+        }
+        // 构造请求参数以调用接口
+        AlipayTradePagePayRequest request = new AlipayTradePagePayRequest();
+        AlipayTradePagePayModel model = new AlipayTradePagePayModel();
+        // 设置订单标题
+        model.setSubject(aliPayParams.getSubject());
+        // 设置请求来源地址
+//        model.setRequestFromUrl("https://");
+        // 设置产品码
+        model.setProductCode("FAST_INSTANT_TRADE_PAY");
+        // 设置PC扫码支付的方式
+        model.setQrPayMode("1");
+//        // 设置商户自定义二维码宽度
+        model.setQrcodeWidth(100L);
+//        // 设置请求后页面的集成方式
+        model.setIntegrationType("PCWEB");
+        // 设置商户订单号
+        model.setOutTradeNo(aliPayParams.getOrderNo());
+        // 设置订单总金额
+        model.setTotalAmount(aliPayParams.getAmount());
+        request.setBizModel(model);
+        request.setReturnUrl("http://127.0.0.1:8080/pay/alipay/returnUrl");
+//        request.setNotifyUrl(payProperties.getNotifyUrl());
+        AlipayTradePagePayResponse response = null;
+        try {
+            response = alipayClient.pageExecute(request, "POST");
+        } catch (AlipayApiException e) {
+            e.printStackTrace();
+        }
+        String pageRedirectionData = response.getBody();
+        if (response.isSuccess()) {
+            System.out.println("调用成功");
+            return pageRedirectionData;
+        } else {
+            System.out.println("调用失败");
+            return null;
+        }
     }
 
     private AlipayConfig getAlipayConfig() {

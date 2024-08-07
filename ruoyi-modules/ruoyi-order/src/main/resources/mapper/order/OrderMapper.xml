@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.order.mapper.OrderMapper">
-    
+
     <resultMap type="Order" id="OrderResult">
         <result property="id"    column="id"    />
         <result property="orderNo"    column="order_no"    />
@@ -47,7 +47,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectOrderList" parameterType="Order" resultMap="OrderResult">
         <include refid="selectOrderVo"/>
-        <where>  
+        <where>
             <if test="orderNo != null  and orderNo != ''"> and order_no = #{orderNo}</if>
             <if test="merchandiseId != null "> and merchandise_id = #{merchandiseId}</if>
             <if test="userId != null "> and user_id = #{userId}</if>
@@ -59,7 +59,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="paymentTime != null "> and payment_time = #{paymentTime}</if>
         </where>
     </select>
-    
+
     <select id="selectOrderById" parameterType="String" resultMap="OrderPayInfoResult">
         select id, order_no, merchandise_id, user_id, number, payment, status, payment_type, end_time, payment_time, create_by, create_time, update_by, update_time, remark
         from order
@@ -72,7 +72,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where order_no = #{order_no}
     </select>
 
-    <insert id="insertOrder" parameterType="Order">
+    <insert id="insertOrder" parameterType="Order" useGeneratedKeys="true" keyColumn="id">
         insert into order
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">id,</if>
@@ -136,14 +136,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </delete>
 
     <delete id="deleteOrderByIds" parameterType="String">
-        delete from order where id in 
+        delete from order where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
     </delete>
-    
+
     <delete id="deletePayInfoByOrderNos" parameterType="String">
-        delete from pay_info where order_no in 
+        delete from pay_info where order_no in
         <foreach item="orderNo" collection="array" open="(" separator="," close=")">
             #{orderNo}
         </foreach>

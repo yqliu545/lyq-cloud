@@ -11,6 +11,7 @@
     <modules>
         <module>ruoyi-api-system</module>
         <module>ruoyi-api-order</module>
+        <module>ruoyi-api-pay</module>
     </modules>
 
     <artifactId>ruoyi-api</artifactId>
