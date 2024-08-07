@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.order.mapper.OrderMapper">
+    
+    <resultMap type="Order" id="OrderResult">
+        <result property="id"    column="id"    />
+        <result property="orderNo"    column="order_no"    />
+        <result property="merchandiseId"    column="merchandise_id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="number"    column="number"    />
+        <result property="payment"    column="payment"    />
+        <result property="status"    column="status"    />
+        <result property="paymentType"    column="payment_type"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="paymentTime"    column="payment_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <resultMap id="OrderPayInfoResult" type="Order" extends="OrderResult">
+        <collection property="payInfoList" ofType="PayInfo" column="id" select="selectPayInfoList" />
+    </resultMap>
+
+    <resultMap type="PayInfo" id="PayInfoResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="orderNo"    column="order_no"    />
+        <result property="payPlatform"    column="pay_platform"    />
+        <result property="tradeNo"    column="trade_no"    />
+        <result property="status"    column="status"    />
+        <result property="payAmount"    column="pay_amount"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectOrderVo">
+        select id, order_no, merchandise_id, user_id, number, payment, status, payment_type, end_time, payment_time, create_by, create_time, update_by, update_time, remark from order
+    </sql>
+
+    <select id="selectOrderList" parameterType="Order" resultMap="OrderResult">
+        <include refid="selectOrderVo"/>
+        <where>  
+            <if test="orderNo != null  and orderNo != ''"> and order_no = #{orderNo}</if>
+            <if test="merchandiseId != null "> and merchandise_id = #{merchandiseId}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="number != null "> and number = #{number}</if>
+            <if test="payment != null "> and payment = #{payment}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="paymentType != null  and paymentType != ''"> and payment_type = #{paymentType}</if>
+            <if test="endTime != null "> and end_time = #{endTime}</if>
+            <if test="paymentTime != null "> and payment_time = #{paymentTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectOrderById" parameterType="String" resultMap="OrderPayInfoResult">
+        select id, order_no, merchandise_id, user_id, number, payment, status, payment_type, end_time, payment_time, create_by, create_time, update_by, update_time, remark
+        from order
+        where id = #{id}
+    </select>
+
+    <select id="selectPayInfoList" resultMap="PayInfoResult">
+        select id, user_id, order_no, pay_platform, trade_no, status, pay_amount, create_by, create_time, update_by, update_time, remark
+        from pay_info
+        where order_no = #{order_no}
+    </select>
+
+    <insert id="insertOrder" parameterType="Order">
+        insert into order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="orderNo != null">order_no,</if>
+            <if test="merchandiseId != null">merchandise_id,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="number != null">number,</if>
+            <if test="payment != null">payment,</if>
+            <if test="status != null and status != ''">status,</if>
+            <if test="paymentType != null">payment_type,</if>
+            <if test="endTime != null">end_time,</if>
+            <if test="paymentTime != null">payment_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="orderNo != null">#{orderNo},</if>
+            <if test="merchandiseId != null">#{merchandiseId},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="number != null">#{number},</if>
+            <if test="payment != null">#{payment},</if>
+            <if test="status != null and status != ''">#{status},</if>
+            <if test="paymentType != null">#{paymentType},</if>
+            <if test="endTime != null">#{endTime},</if>
+            <if test="paymentTime != null">#{paymentTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateOrder" parameterType="Order">
+        update order
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderNo != null">order_no = #{orderNo},</if>
+            <if test="merchandiseId != null">merchandise_id = #{merchandiseId},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="number != null">number = #{number},</if>
+            <if test="payment != null">payment = #{payment},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+            <if test="paymentType != null">payment_type = #{paymentType},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="paymentTime != null">payment_time = #{paymentTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteOrderById" parameterType="String">
+        delete from order where id = #{id}
+    </delete>
+
+    <delete id="deleteOrderByIds" parameterType="String">
+        delete from order where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+    <delete id="deletePayInfoByOrderNos" parameterType="String">
+        delete from pay_info where order_no in 
+        <foreach item="orderNo" collection="array" open="(" separator="," close=")">
+            #{orderNo}
+        </foreach>
+    </delete>
+
+    <delete id="deletePayInfoByOrderNo" parameterType="String">
+        delete from pay_info where order_no = #{orderNo}
+    </delete>
+
+    <insert id="batchPayInfo">
+        insert into pay_info( id, user_id, order_no, pay_platform, trade_no, status, pay_amount, create_by, create_time, update_by, update_time, remark) values
+        <foreach item="item" index="index" collection="list" separator=",">
+            ( #{item.id}, #{item.userId}, #{item.orderNo}, #{item.payPlatform}, #{item.tradeNo}, #{item.status}, #{item.payAmount}, #{item.createBy}, #{item.createTime}, #{item.updateBy}, #{item.updateTime}, #{item.remark})
+        </foreach>
+    </insert>
+</mapper>

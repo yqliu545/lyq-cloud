@@ -1,15 +1,15 @@
-package com.ruoyi.system.service;
+package com.ruoyi.system.mapper;
 
 import java.util.List;
 import com.ruoyi.system.domain.SysSocial;
 
 /**
- * 社会化关系Service接口
+ * 社会化关系Mapper接口
  * 
  * @author lyq
  * @date 2024-08-07
  */
-public interface ISysSocialService 
+public interface SysSocialMapper 
 {
     /**
      * 查询社会化关系
@@ -44,18 +44,18 @@ public interface ISysSocialService
     public int updateSysSocial(SysSocial sysSocial);
 
     /**
-     * 批量删除社会化关系
-     * 
-     * @param ids 需要删除的社会化关系主键集合
-     * @return 结果
-     */
-    public int deleteSysSocialByIds(Long[] ids);
-
-    /**
-     * 删除社会化关系信息
+     * 删除社会化关系
      * 
      * @param id 社会化关系主键
      * @return 结果
      */
     public int deleteSysSocialById(Long id);
+
+    /**
+     * 批量删除社会化关系
+     * 
+     * @param ids 需要删除的数据主键集合
+     * @return 结果
+     */
+    public int deleteSysSocialByIds(Long[] ids);
 }

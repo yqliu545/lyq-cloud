@@ -3,87 +3,186 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.system.mapper.SysSocialMapper">
+    
+    <resultMap type="SysSocial" id="SysSocialResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="tenantId"    column="tenant_id"    />
+        <result property="authId"    column="auth_id"    />
+        <result property="source"    column="source"    />
+        <result property="openId"    column="open_id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="nickName"    column="nick_name"    />
+        <result property="email"    column="email"    />
+        <result property="avatar"    column="avatar"    />
+        <result property="accessToken"    column="access_token"    />
+        <result property="expireIn"    column="expire_in"    />
+        <result property="refreshToken"    column="refresh_token"    />
+        <result property="accessCode"    column="access_code"    />
+        <result property="unionId"    column="union_id"    />
+        <result property="scope"    column="scope"    />
+        <result property="tokenType"    column="token_type"    />
+        <result property="idToken"    column="id_token"    />
+        <result property="macAlgorithm"    column="mac_algorithm"    />
+        <result property="macKey"    column="mac_key"    />
+        <result property="code"    column="code"    />
+        <result property="oauthToken"    column="oauth_token"    />
+        <result property="oauthTokenSecret"    column="oauth_token_secret"    />
+        <result property="createDept"    column="create_dept"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="delFlag"    column="del_flag"    />
+    </resultMap>
 
-	<resultMap type="SysSocial" id="SysSocialResult">
-		<id     property="id"             column="id"               />
-		<result property="userId"           column="user_id"             />
-		<result property="authId"            column="auth_id"              />
-		<result property="source"           column="source"             />
-		<result property="accessToken"          column="access_token"            />
-		<result property="expireIn"  column="expire_in"   />
-		<result property="refreshToken"  column="refresh_token"   />
-		<result property="openId"             column="open_id"                />
-		<result property="userName"            column="user_name"              />
-		<result property="nickName"           column="nick_name"             />
-		<result property="email"         column="email"           />
-		<result property="avatar"           column="avatar"             />
-		<result property="accessCode"         column="access_code"           />
-		<result property="unionId"             column="union_id"                />
-		<result property="scope"             column="scope"                />
-		<result property="tokenType"             column="token_type"                />
-		<result property="idToken"             column="id_token"                />
-		<result property="macAlgorithm"             column="mac_algorithm"                />
-		<result property="macKey"             column="mac_key"                />
-		<result property="code"             column="code"                />
-		<result property="oauthToken"             column="oauth_token"                />
-		<result property="oauthTokenSecret"             column="oauth_token_secret"                />
-	</resultMap>
+    <sql id="selectSysSocialVo">
+        select id, user_id, tenant_id, auth_id, source, open_id, user_name, nick_name, email, avatar, access_token, expire_in, refresh_token, access_code, union_id, scope, token_type, id_token, mac_algorithm, mac_key, code, oauth_token, oauth_token_secret, create_dept, create_by, create_time, update_by, update_time, del_flag from sys_social
+    </sql>
 
+    <select id="selectSysSocialList" parameterType="SysSocial" resultMap="SysSocialResult">
+        <include refid="selectSysSocialVo"/>
+        <where>  
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="tenantId != null  and tenantId != ''"> and tenant_id = #{tenantId}</if>
+            <if test="authId != null  and authId != ''"> and auth_id = #{authId}</if>
+            <if test="source != null  and source != ''"> and source = #{source}</if>
+            <if test="openId != null  and openId != ''"> and open_id = #{openId}</if>
+            <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
+            <if test="nickName != null  and nickName != ''"> and nick_name like concat('%', #{nickName}, '%')</if>
+            <if test="email != null  and email != ''"> and email = #{email}</if>
+            <if test="avatar != null  and avatar != ''"> and avatar = #{avatar}</if>
+            <if test="accessToken != null  and accessToken != ''"> and access_token = #{accessToken}</if>
+            <if test="expireIn != null "> and expire_in = #{expireIn}</if>
+            <if test="refreshToken != null  and refreshToken != ''"> and refresh_token = #{refreshToken}</if>
+            <if test="accessCode != null  and accessCode != ''"> and access_code = #{accessCode}</if>
+            <if test="unionId != null  and unionId != ''"> and union_id = #{unionId}</if>
+            <if test="scope != null  and scope != ''"> and scope = #{scope}</if>
+            <if test="tokenType != null  and tokenType != ''"> and token_type = #{tokenType}</if>
+            <if test="idToken != null  and idToken != ''"> and id_token = #{idToken}</if>
+            <if test="macAlgorithm != null  and macAlgorithm != ''"> and mac_algorithm = #{macAlgorithm}</if>
+            <if test="macKey != null  and macKey != ''"> and mac_key = #{macKey}</if>
+            <if test="code != null  and code != ''"> and code = #{code}</if>
+            <if test="oauthToken != null  and oauthToken != ''"> and oauth_token = #{oauthToken}</if>
+            <if test="oauthTokenSecret != null  and oauthTokenSecret != ''"> and oauth_token_secret = #{oauthTokenSecret}</if>
+            <if test="createDept != null "> and create_dept = #{createDept}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysSocialById" parameterType="Long" resultMap="SysSocialResult">
+        <include refid="selectSysSocialVo"/>
+        where id = #{id}
+    </select>
 
- 	<insert id="insertRole" parameterType="SysSocial" useGeneratedKeys="true" keyProperty="id">
- 		insert into sys_social(
- 			<if test="id != null and id != 0">id,</if>
- 			<if test="userId != null and userId != ''">user_id,</if>
- 			<if test="authId != null and authId != ''">auth_id,</if>
- 			<if test="source != null and source != ''">source,</if>
- 			<if test="accessToken != null and accessToken != ''">access_token,</if>
- 			<if test="expireIn != null and expireIn != ''">expire_in,</if>
- 			<if test="refreshToken != null  and refreshToken != ''">refresh_token,</if>
- 			<if test="openId != null and openId != ''">open_id,</if>
- 			<if test="userName != null and userName != ''">user_name,</if>
- 			<if test="nickName != null and nickName != ''">nick_name,</if>
- 			<if test="email != null and email != ''">email,</if>
- 			<if test="avatar != null and avatar != ''">avatar,</if>
- 			<if test="accessCode != null and accessCode != ''">access_code,</if>
- 			<if test="scope != null and scope != ''">scope,</if>
- 			<if test="tokenType != null and tokenType != ''">token_type,</if>
- 			<if test="unionId != null and unionId != ''">union_id,</if>
- 			<if test="idToken != null and idToken != ''">id_token,</if>
- 			<if test="macAlgorithm != null and macAlgorithm != ''">mac_algorithm,</if>
- 			<if test="macKey != null and macKey != ''">mac_key,</if>
- 			<if test="code != null and code != ''">code,</if>
- 			<if test="oauthToken != null and oauthToken != ''">oauth_token,</if>
- 			<if test="oauthTokenSecret != null and oauthTokenSecret != ''">oauth_token_secret,</if>
-			<if test="createBy != null and createBy != ''">create_by,</if>
-			create_time
- 		)values(
-			<if test="id != null and id != 0">#{id},</if>
-			<if test="userId != null and userId != ''">#{userId},</if>
-			<if test="authId != null and authId != ''">#{authId},</if>
-			<if test="source != null and source != ''">#{source},</if>
-			<if test="accessToken != null and accessToken != ''">#{accessToken},</if>
-			<if test="expireIn != null and expireIn != ''">#{expireIn},</if>
-			<if test="refreshToken != null  and refreshToken != ''">#{refreshToken},</if>
-			<if test="openId != null and openId != ''">#{openId},</if>
-			<if test="userName != null and userName != ''">#{userName},</if>
-			<if test="nickName != null and nickName != ''">#{nickName},</if>
-			<if test="email != null and email != ''">#{email},</if>
-			<if test="avatar != null and avatar != ''">#{avatar},</if>
-			<if test="accessCode != null and accessCode != ''">#{accessCode},</if>
-			<if test="scope != null and scope != ''">#{scope},</if>
-			<if test="tokenType != null and tokenType != ''">#{tokenType},</if>
-			<if test="unionId != null and unionId != ''">#{unionId},</if>
-			<if test="idToken != null and idToken != ''">#{idToken},</if>
-			<if test="macAlgorithm != null and macAlgorithm != ''">#{macAlgorithm},</if>
-			<if test="macKey != null and macKey != ''">#{macKey},</if>
-			<if test="code != null and code != ''">#{code},</if>
-			<if test="oauthToken != null and oauthToken != ''">#{oauthToken},</if>
-			<if test="oauthTokenSecret != null and oauthTokenSecret != ''">#{oauthTokenSecret},</if>
- 			<if test="createBy != null and createBy != ''">#{createBy},</if>
- 			sysdate()
- 		)
-	</insert>
+    <insert id="insertSysSocial" parameterType="SysSocial">
+        insert into sys_social
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="tenantId != null">tenant_id,</if>
+            <if test="authId != null and authId != ''">auth_id,</if>
+            <if test="source != null and source != ''">source,</if>
+            <if test="openId != null">open_id,</if>
+            <if test="userName != null and userName != ''">user_name,</if>
+            <if test="nickName != null">nick_name,</if>
+            <if test="email != null">email,</if>
+            <if test="avatar != null">avatar,</if>
+            <if test="accessToken != null and accessToken != ''">access_token,</if>
+            <if test="expireIn != null">expire_in,</if>
+            <if test="refreshToken != null">refresh_token,</if>
+            <if test="accessCode != null">access_code,</if>
+            <if test="unionId != null">union_id,</if>
+            <if test="scope != null">scope,</if>
+            <if test="tokenType != null">token_type,</if>
+            <if test="idToken != null">id_token,</if>
+            <if test="macAlgorithm != null">mac_algorithm,</if>
+            <if test="macKey != null">mac_key,</if>
+            <if test="code != null">code,</if>
+            <if test="oauthToken != null">oauth_token,</if>
+            <if test="oauthTokenSecret != null">oauth_token_secret,</if>
+            <if test="createDept != null">create_dept,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="delFlag != null">del_flag,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="tenantId != null">#{tenantId},</if>
+            <if test="authId != null and authId != ''">#{authId},</if>
+            <if test="source != null and source != ''">#{source},</if>
+            <if test="openId != null">#{openId},</if>
+            <if test="userName != null and userName != ''">#{userName},</if>
+            <if test="nickName != null">#{nickName},</if>
+            <if test="email != null">#{email},</if>
+            <if test="avatar != null">#{avatar},</if>
+            <if test="accessToken != null and accessToken != ''">#{accessToken},</if>
+            <if test="expireIn != null">#{expireIn},</if>
+            <if test="refreshToken != null">#{refreshToken},</if>
+            <if test="accessCode != null">#{accessCode},</if>
+            <if test="unionId != null">#{unionId},</if>
+            <if test="scope != null">#{scope},</if>
+            <if test="tokenType != null">#{tokenType},</if>
+            <if test="idToken != null">#{idToken},</if>
+            <if test="macAlgorithm != null">#{macAlgorithm},</if>
+            <if test="macKey != null">#{macKey},</if>
+            <if test="code != null">#{code},</if>
+            <if test="oauthToken != null">#{oauthToken},</if>
+            <if test="oauthTokenSecret != null">#{oauthTokenSecret},</if>
+            <if test="createDept != null">#{createDept},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+         </trim>
+    </insert>
 
+    <update id="updateSysSocial" parameterType="SysSocial">
+        update sys_social
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="tenantId != null">tenant_id = #{tenantId},</if>
+            <if test="authId != null and authId != ''">auth_id = #{authId},</if>
+            <if test="source != null and source != ''">source = #{source},</if>
+            <if test="openId != null">open_id = #{openId},</if>
+            <if test="userName != null and userName != ''">user_name = #{userName},</if>
+            <if test="nickName != null">nick_name = #{nickName},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="avatar != null">avatar = #{avatar},</if>
+            <if test="accessToken != null and accessToken != ''">access_token = #{accessToken},</if>
+            <if test="expireIn != null">expire_in = #{expireIn},</if>
+            <if test="refreshToken != null">refresh_token = #{refreshToken},</if>
+            <if test="accessCode != null">access_code = #{accessCode},</if>
+            <if test="unionId != null">union_id = #{unionId},</if>
+            <if test="scope != null">scope = #{scope},</if>
+            <if test="tokenType != null">token_type = #{tokenType},</if>
+            <if test="idToken != null">id_token = #{idToken},</if>
+            <if test="macAlgorithm != null">mac_algorithm = #{macAlgorithm},</if>
+            <if test="macKey != null">mac_key = #{macKey},</if>
+            <if test="code != null">code = #{code},</if>
+            <if test="oauthToken != null">oauth_token = #{oauthToken},</if>
+            <if test="oauthTokenSecret != null">oauth_token_secret = #{oauthTokenSecret},</if>
+            <if test="createDept != null">create_dept = #{createDept},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+        </trim>
+        where id = #{id}
+    </update>
 
+    <delete id="deleteSysSocialById" parameterType="Long">
+        delete from sys_social where id = #{id}
+    </delete>
 
+    <delete id="deleteSysSocialByIds" parameterType="String">
+        delete from sys_social where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
 </mapper>
