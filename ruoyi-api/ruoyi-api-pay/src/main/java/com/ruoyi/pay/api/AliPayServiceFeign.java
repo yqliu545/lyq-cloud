@@ -13,6 +13,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 @FeignClient(contextId = "aliPayServiceFeign", value = ServiceNameConstants.PAY_SERVICE, fallbackFactory = AliPayFallbackFactory.class)
 public interface AliPayServiceFeign {
 
-    @PostMapping("/pay/alipay/inpay")
+    @PostMapping("/alipay/inpay")
     public R<String> pay(@RequestBody AliPayParams aliPayParams,@RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 }

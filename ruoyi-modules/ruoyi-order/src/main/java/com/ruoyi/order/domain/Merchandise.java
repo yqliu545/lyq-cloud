@@ -33,9 +33,7 @@ public class Merchandise extends BaseEntity
 
     /** 商品属性 */
     @Excel(name = "商品属性")
-    private String
-
-attribute;
+    private String shuxing;
 
     /** 价格 */
     @Excel(name = "价格")
@@ -94,11 +92,11 @@ attribute;
         return categoryId;
     }
     public void setAttribute(String attribute)
-    {this.attribute = attribute;}
+    {this.shuxing = attribute;}
 
     public String getAttribute()
     {
-        return attribute;
+        return shuxing;
     }
     public void setPrice(BigDecimal price)
     {

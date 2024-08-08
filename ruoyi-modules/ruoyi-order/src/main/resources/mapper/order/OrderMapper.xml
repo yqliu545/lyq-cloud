@@ -9,7 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="orderNo"    column="order_no"    />
         <result property="merchandiseId"    column="merchandise_id"    />
         <result property="userId"    column="user_id"    />
-        <result property="number"    column="number"    />
+        <result property="numbers"    column="numbers"    />
         <result property="payment"    column="payment"    />
         <result property="status"    column="status"    />
         <result property="paymentType"    column="payment_type"    />
@@ -61,8 +61,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <select id="selectOrderById" parameterType="String" resultMap="OrderPayInfoResult">
-        select id, order_no, merchandise_id, user_id, number, payment, status, payment_type, end_time, payment_time, create_by, create_time, update_by, update_time, remark
-        from order
+        select id, order_no, merchandise_id, user_id, numbers, payment, status, payment_type, end_time, payment_time, create_by, create_time, update_by, update_time, remark
+        from t_order
         where id = #{id}
     </select>
 
@@ -72,19 +72,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where order_no = #{order_no}
     </select>
     <select id="selectOrderByOrderNo" parameterType="String" resultMap="OrderResult">
-        select id, order_no, merchandise_id, user_id, number, payment, status, payment_type, end_time, payment_time, create_by, create_time, update_by, update_time, remark
-        from order
+        select id, order_no, merchandise_id, user_id, numbers, payment, status, payment_type, end_time, payment_time, create_by, create_time, update_by, update_time, remark
+        from t_order
         where order_no = #{orderNo}
     </select>
     
-    <insert id="insertOrder" parameterType="Order" useGeneratedKeys="true" keyColumn="id">
-        insert into order
+    <insert id="insertOrder" parameterType="Order" useGeneratedKeys="true" keyProperty="id">
+        insert into t_order
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">id,</if>
             <if test="orderNo != null">order_no,</if>
             <if test="merchandiseId != null">merchandise_id,</if>
             <if test="userId != null">user_id,</if>
-            <if test="number != null">number,</if>
+            <if test="numbers != null">numbers,</if>
             <if test="payment != null">payment,</if>
             <if test="status != null and status != ''">status,</if>
             <if test="paymentType != null">payment_type,</if>
@@ -101,7 +101,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="orderNo != null">#{orderNo},</if>
             <if test="merchandiseId != null">#{merchandiseId},</if>
             <if test="userId != null">#{userId},</if>
-            <if test="number != null">#{number},</if>
+            <if test="numbers != null">#{numbers},</if>
             <if test="payment != null">#{payment},</if>
             <if test="status != null and status != ''">#{status},</if>
             <if test="paymentType != null">#{paymentType},</if>
@@ -116,12 +116,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </insert>
 
     <update id="updateOrder" parameterType="Order">
-        update order
+        update t_order
         <trim prefix="SET" suffixOverrides=",">
             <if test="orderNo != null">order_no = #{orderNo},</if>
             <if test="merchandiseId != null">merchandise_id = #{merchandiseId},</if>
             <if test="userId != null">user_id = #{userId},</if>
-            <if test="number != null">number = #{number},</if>
+            <if test="numbers != null">numbers = #{numbers},</if>
             <if test="payment != null">payment = #{payment},</if>
             <if test="status != null and status != ''">status = #{status},</if>
             <if test="paymentType != null">payment_type = #{paymentType},</if>
@@ -137,11 +137,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </update>
 
     <delete id="deleteOrderById" parameterType="String">
-        delete from order where id = #{id}
+        delete from t_order where id = #{id}
     </delete>
 
     <delete id="deleteOrderByIds" parameterType="String">
-        delete from order where id in
+        delete from t_order where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

@@ -183,9 +183,9 @@ public class AliPayServiceImpl implements AliPayService {
         // 设置产品码
         model.setProductCode("FAST_INSTANT_TRADE_PAY");
         // 设置PC扫码支付的方式
-        model.setQrPayMode("1");
+//        model.setQrPayMode("1");
 //        // 设置商户自定义二维码宽度
-        model.setQrcodeWidth(100L);
+//        model.setQrcodeWidth(100L);
 //        // 设置请求后页面的集成方式
         model.setIntegrationType("PCWEB");
         // 设置商户订单号

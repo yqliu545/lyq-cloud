@@ -8,7 +8,7 @@ import com.ruoyi.common.core.web.domain.BaseEntity;
 
 /**
  * 支付信息对象 pay_info
- * 
+ *
  * @author lyq
  * @date 2024-08-07
  */
@@ -22,6 +22,8 @@ public class PayInfo extends BaseEntity
     /** 用户id */
     @Excel(name = "用户id")
     private Long userId;
+
+    private String sellerId;
 
     /** 订单编号 */
     @Excel(name = "订单编号")
@@ -43,66 +45,74 @@ public class PayInfo extends BaseEntity
     @Excel(name = "支付金额")
     private BigDecimal payAmount;
 
-    public void setId(Long id) 
+    public String getSellerId() {
+        return sellerId;
+    }
+
+    public void setSellerId(String sellerId) {
+        this.sellerId = sellerId;
+    }
+
+    public void setId(Long id)
     {
         this.id = id;
     }
 
-    public Long getId() 
+    public Long getId()
     {
         return id;
     }
-    public void setUserId(Long userId) 
+    public void setUserId(Long userId)
     {
         this.userId = userId;
     }
 
-    public Long getUserId() 
+    public Long getUserId()
     {
         return userId;
     }
-    public void setOrderNo(String orderNo) 
+    public void setOrderNo(String orderNo)
     {
         this.orderNo = orderNo;
     }
 
-    public String getOrderNo() 
+    public String getOrderNo()
     {
         return orderNo;
     }
-    public void setPayPlatform(String payPlatform) 
+    public void setPayPlatform(String payPlatform)
     {
         this.payPlatform = payPlatform;
     }
 
-    public String getPayPlatform() 
+    public String getPayPlatform()
     {
         return payPlatform;
     }
-    public void setTradeNo(String tradeNo) 
+    public void setTradeNo(String tradeNo)
     {
         this.tradeNo = tradeNo;
     }
 
-    public String getTradeNo() 
+    public String getTradeNo()
     {
         return tradeNo;
     }
-    public void setStatus(String status) 
+    public void setStatus(String status)
     {
         this.status = status;
     }
 
-    public String getStatus() 
+    public String getStatus()
     {
         return status;
     }
-    public void setPayAmount(BigDecimal payAmount) 
+    public void setPayAmount(BigDecimal payAmount)
     {
         this.payAmount = payAmount;
     }
 
-    public BigDecimal getPayAmount() 
+    public BigDecimal getPayAmount()
     {
         return payAmount;
     }

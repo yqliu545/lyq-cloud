@@ -1,11 +1,13 @@
 package com.ruoyi.order.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import cn.hutool.core.date.DateUtil;
 import com.ruoyi.common.core.constant.SecurityConstants;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.utils.DateUtils;
+import com.ruoyi.common.security.utils.SecurityUtils;
 import com.ruoyi.order.domain.Merchandise;
 import com.ruoyi.pay.api.AliPayServiceFeign;
 import com.ruoyi.pay.api.domain.AliPayParams;
@@ -133,7 +135,8 @@ public class OrderServiceImpl implements IOrderService
     public String makeOrder(Order order) {
         order.setCreateTime(DateUtils.getNowDate());
         order.setOrderNo(getOrderNo());
-
+        Long userid = SecurityUtils.getLoginUser().getUserid();
+        order.setUserId(userid);
         orderMapper.insertOrder(order);
         Merchandise merchandise = merchandiseService.selectMerchandiseByMerchandiseId(order.getMerchandiseId());
         AliPayParams aliPayParams = new AliPayParams(order.getPayment().toString(), merchandise.getName(), order.getOrderNo());
@@ -146,6 +149,7 @@ public class OrderServiceImpl implements IOrderService
     public Boolean handleOrderStatus(String orderNo) {
         //查询订单
         Order order=orderMapper.selectOrderByOrderNo(orderNo);
+        order.setPaymentTime(new Date());
         //修改状态
         order.setStatus("1");
         int i = orderMapper.updateOrder(order);

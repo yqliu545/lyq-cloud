@@ -13,6 +13,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 
 @FeignClient(contextId = "orderServiceFeign", value = ServiceNameConstants.ORDER_SERVICE, fallbackFactory = OrderFallbackFactory.class)
 public interface OrderServiceFeign {
-    @GetMapping("/order/order/updateStatus/{orderNo}")
+    @GetMapping("/order/updateStatus/{orderNo}")
     public R<Boolean> updateOrderStatus(@PathVariable("orderNo") String orderNo, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 }

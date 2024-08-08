@@ -1,13 +1,19 @@
 package com.ruoyi.pay.controller;
 
 import com.alipay.api.internal.util.AlipaySignature;
+import com.ruoyi.common.core.constant.SecurityConstants;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.utils.StringUtils;
+import com.ruoyi.common.core.web.controller.BaseController;
 import com.ruoyi.common.security.annotation.InnerAuth;
+import com.ruoyi.common.security.utils.SecurityUtils;
+import com.ruoyi.order.api.OrderServiceFeign;
 import com.ruoyi.pay.config.PayProperties;
 import com.ruoyi.pay.domain.AliPayParams;
 import com.ruoyi.pay.domain.Order;
+import com.ruoyi.pay.domain.PayInfo;
 import com.ruoyi.pay.service.AliPayService;
+import com.ruoyi.pay.service.impl.PayInfoServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +22,14 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/alipay")
-public class PayController {
+public class PayController extends BaseController {
 
     private static final Logger log = LoggerFactory.getLogger(PayController.class);
 
@@ -31,6 +38,10 @@ public class PayController {
 
     @Autowired
     private AliPayService aliPayService;
+    @Autowired
+    private OrderServiceFeign orderServiceFeign;
+    @Autowired
+    private PayInfoServiceImpl payInfoService;
 
     //下单
     @PostMapping("/makeOrder")
@@ -65,6 +76,18 @@ public class PayController {
             //修改订单状态，根据商户订单号查询订单信息
 //            aliPayService.alipayCallback(request,response);
             log.info("支付成功同步通知=>{}",outTradeNo);
+            orderServiceFeign.updateOrderStatus(outTradeNo, SecurityConstants.INNER);
+            //保存支付记录
+            PayInfo payInfo = new PayInfo();
+            payInfo.setOrderNo(outTradeNo);
+            payInfo.setPayAmount(new BigDecimal(totalAmount));
+            payInfo.setTradeNo(tradeNo);
+//            Long userid = SecurityUtils.getLoginUser().getUserid();
+//            payInfo.setUserId(userid);
+            payInfo.setSellerId(sellerId);
+            payInfo.setStatus("1");
+            payInfoService.insertPayInfo(payInfo);
+            //发送短信
             response.sendRedirect("http://127.0.0.1:80/index");
         }else {
             //验签失败
@@ -100,6 +123,17 @@ public class PayController {
             if (trade_status.equals("TRADE_FINISHED")||trade_status.equals("TRADE_SUCCESS")) {
                 //修改订单状态，根据商户订单号查询订单信息
                 log.info("支付成功异步通知=>{}",outTradeNo);
+                orderServiceFeign.updateOrderStatus(outTradeNo, SecurityConstants.INNER);
+                //保存支付记录
+//                PayInfo payInfo = new PayInfo();
+//                payInfo.setOrderNo(outTradeNo);
+//                payInfo.setPayAmount(new BigDecimal(totalAmount));
+//                payInfo.setTradeNo(tradeNo);
+//                Long userid = SecurityUtils.getLoginUser().getUserid();
+//                payInfo.setUserId(userid);
+//                payInfo.setSellerId(sellerId);
+//                payInfo.setStatus("1");
+//                payInfoService.insertPayInfo(payInfo);
             }else {
                 //失败
                 return "failure";

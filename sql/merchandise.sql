@@ -1,17 +1,17 @@
 /*
- Navicat Premium Dump SQL
+ Navicat Premium Data Transfer
 
- Source Server         : localhost
+ Source Server         : local
  Source Server Type    : MySQL
- Source Server Version : 80038 (8.0.38)
+ Source Server Version : 80026
  Source Host           : localhost:3306
  Source Schema         : ry-cloud
 
  Target Server Type    : MySQL
- Target Server Version : 80038 (8.0.38)
+ Target Server Version : 80026
  File Encoding         : 65001
 
- Date: 05/08/2024 11:03:42
+ Date: 08/08/2024 23:51:35
 */
 
 SET NAMES utf8mb4;
@@ -26,9 +26,7 @@ CREATE TABLE `merchandise`  (
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '商品名称',
   `type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '商品类型',
   `category_id` int NULL DEFAULT NULL COMMENT '商品分类id',
-  `
-
-attribute` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '商品属性',
+  `shuxing` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '商品属性',
   `price` decimal(10, 2) NULL DEFAULT NULL COMMENT '价格',
   `status` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT '1' COMMENT '商品状态1在售2下架',
   `stock` int NULL DEFAULT NULL COMMENT '数量（库存）',
@@ -40,10 +38,6 @@ attribute` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DE
   `update_time` datetime NULL DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`merchandise_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品表' ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of merchandise
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品表' ROW_FORMAT = DYNAMIC;
 
 SET FOREIGN_KEY_CHECKS = 1;

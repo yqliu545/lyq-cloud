@@ -9,11 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="name"    column="name"    />
         <result property="type"    column="type"    />
         <result property="categoryId"    column="category_id"    />
-        <result property="
-
-attribute"    column="
-
-attribute"    />
+        <result property="shuxing"    column="shuxing"    />
         <result property="price"    column="price"    />
         <result property="status"    column="status"    />
         <result property="stock"    column="stock"    />
@@ -27,24 +23,16 @@ attribute"    />
     </resultMap>
 
     <sql id="selectMerchandiseVo">
-        select merchandise_id, name, type, category_id, 
-
-attribute, price, status, stock, main_image, description, create_by, create_time, update_by, update_time, remark from merchandise
+        select merchandise_id, name, type, category_id, shuxing, price, status, stock, main_image, description, create_by, create_time, update_by, update_time, remark from merchandise
     </sql>
 
     <select id="selectMerchandiseList" parameterType="Merchandise" resultMap="MerchandiseResult">
         <include refid="selectMerchandiseVo"/>
-        <where>  
+        <where>
             <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
             <if test="type != null  and type != ''"> and type = #{type}</if>
             <if test="categoryId != null "> and category_id = #{categoryId}</if>
-            <if test="
-
-attribute != null  and attribute != ''"> and 
-
-attribute = #{
-
-attribute}</if>
+            <if test="shuxing != null  and shuxing != ''"> and shuxing = #{shuxing}</if>
             <if test="price != null "> and price = #{price}</if>
             <if test="status != null  and status != ''"> and status = #{status}</if>
             <if test="stock != null "> and stock = #{stock}</if>
@@ -64,11 +52,7 @@ attribute}</if>
             <if test="name != null and name != ''">name,</if>
             <if test="type != null">type,</if>
             <if test="categoryId != null">category_id,</if>
-            <if test="
-
-attribute != null">
-
-attribute,</if>
+            <if test="shuxing != null">shuxing,</if>
             <if test="price != null">price,</if>
             <if test="status != null">status,</if>
             <if test="stock != null">stock,</if>
@@ -84,11 +68,7 @@ attribute,</if>
             <if test="name != null and name != ''">#{name},</if>
             <if test="type != null">#{type},</if>
             <if test="categoryId != null">#{categoryId},</if>
-            <if test="
-
-attribute != null">#{
-
-attribute},</if>
+            <if test="shuxing != null">#{shuxing},</if>
             <if test="price != null">#{price},</if>
             <if test="status != null">#{status},</if>
             <if test="stock != null">#{stock},</if>
@@ -108,13 +88,7 @@ attribute},</if>
             <if test="name != null and name != ''">name = #{name},</if>
             <if test="type != null">type = #{type},</if>
             <if test="categoryId != null">category_id = #{categoryId},</if>
-            <if test="
-
-attribute != null">
-
-attribute = #{
-
-attribute},</if>
+            <if test="shuxing != null"> shuxing = #{shuxing},</if>
             <if test="price != null">price = #{price},</if>
             <if test="status != null">status = #{status},</if>
             <if test="stock != null">stock = #{stock},</if>
@@ -134,7 +108,7 @@ attribute},</if>
     </delete>
 
     <delete id="deleteMerchandiseByMerchandiseIds" parameterType="String">
-        delete from merchandise where merchandise_id in 
+        delete from merchandise where merchandise_id in
         <foreach item="merchandiseId" collection="array" open="(" separator="," close=")">
             #{merchandiseId}
         </foreach>

@@ -11,7 +11,7 @@ import com.ruoyi.common.core.web.domain.BaseEntity;
 
 /**
  * 订单对象 order
- * 
+ *
  * @author ruoyi
  * @date 2024-08-07
  */
@@ -36,7 +36,7 @@ public class Order extends BaseEntity
 
     /** 购买数量 */
     @Excel(name = "购买数量")
-    private Integer number;
+    private Integer numbers;
 
     /** 实际消费金额 */
     @Excel(name = "实际消费金额")
@@ -63,93 +63,93 @@ public class Order extends BaseEntity
     /** 支付信息信息 */
     private List<PayInfo> payInfoList;
 
-    public void setId(String id) 
+    public void setId(String id)
     {
         this.id = id;
     }
 
-    public String getId() 
+    public String getId()
     {
         return id;
     }
-    public void setOrderNo(String orderNo) 
+    public void setOrderNo(String orderNo)
     {
         this.orderNo = orderNo;
     }
 
-    public String getOrderNo() 
+    public String getOrderNo()
     {
         return orderNo;
     }
-    public void setMerchandiseId(Long merchandiseId) 
+    public void setMerchandiseId(Long merchandiseId)
     {
         this.merchandiseId = merchandiseId;
     }
 
-    public Long getMerchandiseId() 
+    public Long getMerchandiseId()
     {
         return merchandiseId;
     }
-    public void setUserId(Long userId) 
+    public void setUserId(Long userId)
     {
         this.userId = userId;
     }
 
-    public Long getUserId() 
+    public Long getUserId()
     {
         return userId;
     }
-    public void setNumber(Integer number) 
+    public void setNumber(Integer number)
     {
-        this.number = number;
+        this.numbers = number;
     }
 
-    public Integer getNumber() 
+    public Integer getNumber()
     {
-        return number;
+        return numbers;
     }
-    public void setPayment(BigDecimal payment) 
+    public void setPayment(BigDecimal payment)
     {
         this.payment = payment;
     }
 
-    public BigDecimal getPayment() 
+    public BigDecimal getPayment()
     {
         return payment;
     }
-    public void setStatus(String status) 
+    public void setStatus(String status)
     {
         this.status = status;
     }
 
-    public String getStatus() 
+    public String getStatus()
     {
         return status;
     }
-    public void setPaymentType(String paymentType) 
+    public void setPaymentType(String paymentType)
     {
         this.paymentType = paymentType;
     }
 
-    public String getPaymentType() 
+    public String getPaymentType()
     {
         return paymentType;
     }
-    public void setEndTime(Date endTime) 
+    public void setEndTime(Date endTime)
     {
         this.endTime = endTime;
     }
 
-    public Date getEndTime() 
+    public Date getEndTime()
     {
         return endTime;
     }
-    public void setPaymentTime(Date paymentTime) 
+    public void setPaymentTime(Date paymentTime)
     {
         this.paymentTime = paymentTime;
     }
 
-    public Date getPaymentTime() 
+    public Date getPaymentTime()
     {
         return paymentTime;
     }
