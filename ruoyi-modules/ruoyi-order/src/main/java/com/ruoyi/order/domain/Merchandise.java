@@ -55,6 +55,16 @@ public class Merchandise extends BaseEntity
     @Excel(name = "描述")
     private String description;
 
+    private String unit;
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
     public void setMerchandiseId(Long merchandiseId)
     {
         this.merchandiseId = merchandiseId;
@@ -91,10 +101,10 @@ public class Merchandise extends BaseEntity
     {
         return categoryId;
     }
-    public void setAttribute(String attribute)
+    public void setShuxing(String attribute)
     {this.shuxing = attribute;}
 
-    public String getAttribute()
+    public String getShuxing()
     {
         return shuxing;
     }
@@ -151,7 +161,7 @@ public class Merchandise extends BaseEntity
             .append("name", getName())
             .append("type", getType())
             .append("categoryId", getCategoryId())
-            .append(" attribute", getAttribute())
+            .append(" shuxing", getShuxing())
             .append("price", getPrice())
             .append("status", getStatus())
             .append("stock", getStock())
