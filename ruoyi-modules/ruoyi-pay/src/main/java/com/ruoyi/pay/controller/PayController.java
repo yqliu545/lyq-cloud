@@ -87,7 +87,9 @@ public class PayController extends BaseController {
             payInfo.setSellerId(sellerId);
             payInfo.setStatus("1");
             payInfoService.insertPayInfo(payInfo);
-            //发送短信
+            //发送短信(先不调用mq)
+
+
             response.sendRedirect("http://127.0.0.1:80/index");
         }else {
             //验签失败

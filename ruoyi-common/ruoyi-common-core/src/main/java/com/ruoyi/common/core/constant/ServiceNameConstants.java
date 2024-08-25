@@ -30,4 +30,9 @@ public class ServiceNameConstants
      * 订单服务的serviceid
      */
     public static final String ORDER_SERVICE = "ruoyi-order";
+
+    /**
+     * 短信服务的serviceid
+     */
+    public static final String SMS_SERVICE = "ruoyi-sms";
 }

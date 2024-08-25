@@ -159,6 +159,11 @@ public class OrderServiceImpl implements IOrderService
         return false;
     }
 
+    @Override
+    public Order selectOrderByOrderNo(String orderNo) {
+        return orderMapper.selectOrderByOrderNo(orderNo);
+    }
+
     /**
      * 新增支付信息信息
      *

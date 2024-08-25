@@ -37,7 +37,7 @@ public class Order extends BaseEntity
 
     /** 购买数量 */
     @Excel(name = "购买数量")
-    private Integer number;
+    private Integer numbers;
 
     /** 实际消费金额 */
     @Excel(name = "实际消费金额")
@@ -61,8 +61,18 @@ public class Order extends BaseEntity
     @Excel(name = "支付时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date paymentTime;
 
+    private String iphone;
+
     /** 支付信息信息 */
     private List<PayInfo> payInfoList;
+
+    public String getIphone() {
+        return iphone;
+    }
+
+    public void setIphone(String iphone) {
+        this.iphone = iphone;
+    }
 
     public void setId(String id)
     {
@@ -100,14 +110,14 @@ public class Order extends BaseEntity
     {
         return userId;
     }
-    public void setNumber(Integer number)
+    public void setNumbers(Integer number)
     {
-        this.number = number;
+        this.numbers = number;
     }
 
-    public Integer getNumber()
+    public Integer getNumbers()
     {
-        return number;
+        return numbers;
     }
     public void setPayment(BigDecimal payment)
     {
@@ -172,7 +182,7 @@ public class Order extends BaseEntity
             .append("orderNo", getOrderNo())
             .append("merchandiseId", getMerchandiseId())
             .append("userId", getUserId())
-            .append("number", getNumber())
+            .append("number", getNumbers())
             .append("payment", getPayment())
             .append("status", getStatus())
             .append("paymentType", getPaymentType())
