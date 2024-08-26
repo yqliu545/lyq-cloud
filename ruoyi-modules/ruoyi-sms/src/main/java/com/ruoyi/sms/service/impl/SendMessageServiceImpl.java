@@ -10,6 +10,7 @@ import com.ruoyi.common.core.domain.R;
 import com.ruoyi.order.api.OrderServiceFeign;
 import com.ruoyi.order.api.domin.Merchandise;
 import com.ruoyi.order.api.domin.Order;
+import com.ruoyi.sms.config.SmsProperty;
 import com.ruoyi.sms.service.SendMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -24,6 +25,8 @@ public class SendMessageServiceImpl implements SendMessageService {
 
     @Autowired
     private Client client;
+    @Autowired
+    private SmsProperty smsProperty;
 
     @Override
     public void sendMessage(String orderNo) {
@@ -41,8 +44,8 @@ public class SendMessageServiceImpl implements SendMessageService {
         //发送消息
         com.aliyun.dysmsapi20170525.models.SendSmsRequest sendSmsRequest = new com.aliyun.dysmsapi20170525.models.SendSmsRequest()
                 .setPhoneNumbers(orderData.getIphone())
-                .setSignName("缤纷世界你我掌握")
-                .setTemplateCode("SMS_472075245")
+                .setSignName(smsProperty.getSignname())
+                .setTemplateCode(smsProperty.getTemplatecode())
                 .setTemplateParam(params);
         try {
             SendSmsResponse sendSmsResponse = client.sendSms(sendSmsRequest);

@@ -63,7 +63,7 @@ public interface IOrderService
 
     String makeOrder(Order order);
 
-    Boolean handleOrderStatus(String orderNo);
+    Boolean handleOrderStatus(String orderNo,String status);
 
     Order selectOrderByOrderNo(String orderNo);
 }

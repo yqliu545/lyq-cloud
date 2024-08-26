@@ -136,7 +136,9 @@ public class OrderServiceImpl implements IOrderService
         order.setCreateTime(DateUtils.getNowDate());
         order.setOrderNo(getOrderNo());
         Long userid = SecurityUtils.getLoginUser().getUserid();
+        String username = SecurityUtils.getLoginUser().getUsername();
         order.setUserId(userid);
+        order.setCreateBy(username);
         orderMapper.insertOrder(order);
         Merchandise merchandise = merchandiseService.selectMerchandiseByMerchandiseId(order.getMerchandiseId());
         AliPayParams aliPayParams = new AliPayParams(order.getPayment().toString(), merchandise.getName(), order.getOrderNo());
@@ -146,12 +148,12 @@ public class OrderServiceImpl implements IOrderService
     }
 
     @Override
-    public Boolean handleOrderStatus(String orderNo) {
+    public Boolean handleOrderStatus(String orderNo,String status) {
         //查询订单
         Order order=orderMapper.selectOrderByOrderNo(orderNo);
         order.setPaymentTime(new Date());
         //修改状态
-        order.setStatus("1");
+        order.setStatus(status);
         int i = orderMapper.updateOrder(order);
         if (i>0){
             return true;

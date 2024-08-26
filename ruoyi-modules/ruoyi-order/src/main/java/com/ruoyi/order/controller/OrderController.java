@@ -110,9 +110,9 @@ public class OrderController extends BaseController
 
     //收到支付成功后修改订单状态
     @InnerAuth
-    @GetMapping("/updateStatus/{orderNo}")
-    public R<Boolean> updateOrderStatus(@PathVariable("orderNo") String orderNo){
-        return R.ok(orderService.handleOrderStatus(orderNo));
+    @GetMapping("/updateStatus/{orderNo}/{status}")
+    public R<Boolean> updateOrderStatus(@PathVariable("orderNo") String orderNo,@PathVariable("status") String status){
+        return R.ok(orderService.handleOrderStatus(orderNo,status));
     }
 
     @GetMapping("/getOrder/{orderNo}")
