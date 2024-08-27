@@ -14,6 +14,7 @@ import com.ruoyi.pay.domain.Order;
 import com.ruoyi.pay.domain.PayInfo;
 import com.ruoyi.pay.service.AliPayService;
 import com.ruoyi.pay.service.impl.PayInfoServiceImpl;
+import com.ruoyi.sms.api.SmsServiceFeign;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +43,8 @@ public class PayController extends BaseController {
     private OrderServiceFeign orderServiceFeign;
     @Autowired
     private PayInfoServiceImpl payInfoService;
+    @Autowired
+    private SmsServiceFeign smsServiceFeign;
 
     //下单
     @PostMapping("/makeOrder")
@@ -76,7 +79,7 @@ public class PayController extends BaseController {
             //修改订单状态，根据商户订单号查询订单信息
 //            aliPayService.alipayCallback(request,response);
             log.info("支付成功同步通知=>{}",outTradeNo);
-            orderServiceFeign.updateOrderStatus(outTradeNo, SecurityConstants.INNER);
+            orderServiceFeign.updateOrderStatus(outTradeNo,"1", SecurityConstants.INNER);
             //保存支付记录
             PayInfo payInfo = new PayInfo();
             payInfo.setOrderNo(outTradeNo);
@@ -88,7 +91,7 @@ public class PayController extends BaseController {
             payInfo.setStatus("1");
             payInfoService.insertPayInfo(payInfo);
             //发送短信(先不调用mq)
-
+            smsServiceFeign.sendMesssage(outTradeNo,SecurityConstants.INNER);
 
             response.sendRedirect("http://127.0.0.1:80/index");
         }else {
@@ -125,7 +128,7 @@ public class PayController extends BaseController {
             if (trade_status.equals("TRADE_FINISHED")||trade_status.equals("TRADE_SUCCESS")) {
                 //修改订单状态，根据商户订单号查询订单信息
                 log.info("支付成功异步通知=>{}",outTradeNo);
-                orderServiceFeign.updateOrderStatus(outTradeNo, SecurityConstants.INNER);
+                orderServiceFeign.updateOrderStatus(outTradeNo,"1", SecurityConstants.INNER);
                 //保存支付记录
 //                PayInfo payInfo = new PayInfo();
 //                payInfo.setOrderNo(outTradeNo);

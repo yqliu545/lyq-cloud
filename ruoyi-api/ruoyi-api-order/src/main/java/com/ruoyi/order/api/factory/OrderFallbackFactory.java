@@ -20,7 +20,7 @@ public class OrderFallbackFactory implements FallbackFactory<OrderServiceFeign> 
         {
 
             @Override
-            public R<Boolean> updateOrderStatus(String orderNo, String source) {
+            public R<Boolean> updateOrderStatus(String orderNo,String status, String source) {
                 return R.fail("修改订单状态失败："+throwable.getMessage());
             }
 

@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 
 @FeignClient(contextId = "orderServiceFeign", value = ServiceNameConstants.ORDER_SERVICE, fallbackFactory = OrderFallbackFactory.class)
 public interface OrderServiceFeign {
-    @GetMapping("/order/updateStatus/{orderNo}")
-    public R<Boolean> updateOrderStatus(@PathVariable("orderNo") String orderNo, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
+    @GetMapping("/order/updateStatus/{orderNo}/{status}")
+    public R<Boolean> updateOrderStatus(@PathVariable("orderNo") String orderNo,@PathVariable("status") String status, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
     @GetMapping("/order/getOrder/{orderNo}")
     public R<Order> selectOrderByOrderNo(@PathVariable("orderNo")String orderNo, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
     @GetMapping("/merchandise/getMerchandise/{merchandiseId}")

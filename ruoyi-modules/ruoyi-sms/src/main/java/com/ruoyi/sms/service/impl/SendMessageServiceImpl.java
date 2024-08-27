@@ -13,12 +13,13 @@ import com.ruoyi.order.api.domin.Order;
 import com.ruoyi.sms.config.SmsProperty;
 import com.ruoyi.sms.service.SendMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static com.alibaba.fastjson.JSON.toJSONString;
-
+@Service
 public class SendMessageServiceImpl implements SendMessageService {
     @Autowired
     private OrderServiceFeign orderServiceFeign;
@@ -51,7 +52,7 @@ public class SendMessageServiceImpl implements SendMessageService {
             SendSmsResponse sendSmsResponse = client.sendSms(sendSmsRequest);
             String code = sendSmsResponse.getBody().getCode();
             if ("OK".equals(code))
-            orderServiceFeign.updateOrderStatus(orderNo,SecurityConstants.INNER);
+            orderServiceFeign.updateOrderStatus(orderNo,"2",SecurityConstants.INNER);
         } catch (Exception e) {
             e.printStackTrace();
         }
