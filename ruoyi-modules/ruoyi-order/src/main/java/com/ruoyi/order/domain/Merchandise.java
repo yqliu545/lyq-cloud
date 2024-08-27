@@ -55,7 +55,17 @@ public class Merchandise extends BaseEntity
     @Excel(name = "描述")
     private String description;
 
+    private String content;
+
     private String unit;
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 
     public String getUnit() {
         return unit;
