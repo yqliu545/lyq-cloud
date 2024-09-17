@@ -174,9 +174,8 @@ public class SysLoginService
     }
 
     //查询用户信息通过username
-    public LoginUser isHaveLogined(String username) {
-        R<LoginUser> loginUser=remoteUserService.isHaveandSave(username, SecurityConstants.INNER);
-
+    public LoginUser isHaveLogined(String username,String avatar) {
+        R<LoginUser> loginUser=remoteUserService.isHaveandSave(username,avatar, SecurityConstants.INNER);
         return loginUser.getData();
     }
 }

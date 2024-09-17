@@ -205,6 +205,6 @@ public interface ISysUserService
      */
     public String importUser(List<SysUser> userList, Boolean isUpdateSupport, String operName);
 
-    LoginUser save(String username);
+    LoginUser save(String username,String avator);
 
 }

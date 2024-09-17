@@ -34,7 +34,7 @@ public class MerchandiseController extends BaseController
     /**
      * 查询商品列表
      */
-    @RequiresPermissions("order:merchandise:list")
+    //@RequiresPermissions("order:merchandise:list")
     @GetMapping("/list")
     public TableDataInfo list(Merchandise merchandise)
     {
@@ -46,7 +46,7 @@ public class MerchandiseController extends BaseController
     /**
      * 导出商品列表
      */
-    @RequiresPermissions("order:merchandise:export")
+    //@RequiresPermissions("order:merchandise:export")
     @Log(title = "商品", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, Merchandise merchandise)
@@ -59,7 +59,7 @@ public class MerchandiseController extends BaseController
     /**
      * 获取商品详细信息
      */
-    @RequiresPermissions("order:merchandise:query")
+    //@RequiresPermissions("order:merchandise:query")
     @GetMapping(value = "/{merchandiseId}")
     public AjaxResult getInfo(@PathVariable("merchandiseId") Long merchandiseId)
     {
@@ -69,7 +69,7 @@ public class MerchandiseController extends BaseController
     /**
      * 新增商品
      */
-    @RequiresPermissions("order:merchandise:add")
+    //@RequiresPermissions("order:merchandise:add")
     @Log(title = "商品", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody Merchandise merchandise)
@@ -80,7 +80,7 @@ public class MerchandiseController extends BaseController
     /**
      * 修改商品
      */
-    @RequiresPermissions("order:merchandise:edit")
+    //@RequiresPermissions("order:merchandise:edit")
     @Log(title = "商品", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody Merchandise merchandise)
@@ -91,7 +91,7 @@ public class MerchandiseController extends BaseController
     /**
      * 删除商品
      */
-    @RequiresPermissions("order:merchandise:remove")
+    //@RequiresPermissions("order:merchandise:remove")
     @Log(title = "商品", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{merchandiseIds}")
     public AjaxResult remove(@PathVariable Long[] merchandiseIds)

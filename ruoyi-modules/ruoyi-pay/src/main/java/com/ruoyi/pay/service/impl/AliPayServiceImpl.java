@@ -25,7 +25,7 @@ import java.util.List;
 public class AliPayServiceImpl implements AliPayService {
     @Autowired
     private PayProperties payProperties;
-
+    //废弃
     @Override
     public String makeOrder(Order order) {
         // 初始化SDK
@@ -58,7 +58,7 @@ public class AliPayServiceImpl implements AliPayService {
 //        model.setExtendParams(extendParams);
 
         // 设置订单标题
-        model.setSubject("Iphone616G");
+        model.setSubject("笑话");
 
         // 设置请求来源地址
 //        model.setRequestFromUrl("https://");
@@ -67,7 +67,7 @@ public class AliPayServiceImpl implements AliPayService {
         model.setProductCode("FAST_INSTANT_TRADE_PAY");
 
         // 设置PC扫码支付的方式
-//        model.setQrPayMode("0");
+        model.setQrPayMode("3");
 
 //        // 设置商户自定义二维码宽度
         model.setQrcodeWidth(100L);
@@ -183,9 +183,9 @@ public class AliPayServiceImpl implements AliPayService {
         // 设置产品码
         model.setProductCode("FAST_INSTANT_TRADE_PAY");
         // 设置PC扫码支付的方式
-//        model.setQrPayMode("1");
+//        model.setQrPayMode("2");
 //        // 设置商户自定义二维码宽度
-//        model.setQrcodeWidth(100L);
+        model.setQrcodeWidth(150L);
 //        // 设置请求后页面的集成方式
         model.setIntegrationType("PCWEB");
         // 设置商户订单号

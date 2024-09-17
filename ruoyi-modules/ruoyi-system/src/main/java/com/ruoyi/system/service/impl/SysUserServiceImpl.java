@@ -556,11 +556,12 @@ public class SysUserServiceImpl implements ISysUserService
     }
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public LoginUser save(String username) {
+    public LoginUser save(String username,String avator) {
         //新增用户
         SysUser sysUser1 = new SysUser();
         sysUser1.setUserName(username);
         sysUser1.setNickName(username);
+        sysUser1.setAvatar(avator);
         sysUser1.setPassword(SecurityUtils.encryptPassword("123456"));
         userMapper.insertUser(sysUser1);
         //绑定部门

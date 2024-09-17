@@ -44,7 +44,7 @@ public class RemoteUserFallbackFactory implements FallbackFactory<RemoteUserServ
             }
 
             @Override
-            public R<LoginUser> isHaveandSave(String username, String source) {
+            public R<LoginUser> isHaveandSave(String username,String avator, String source) {
                 return R.fail("别再登录了:" + throwable.getMessage());
             }
         };

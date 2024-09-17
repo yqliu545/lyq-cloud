@@ -1,12 +1,7 @@
 package com.ruoyi.system.api;
 
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.*;
 import com.ruoyi.common.core.constant.SecurityConstants;
 import com.ruoyi.common.core.constant.ServiceNameConstants;
 import com.ruoyi.common.core.domain.R;
@@ -52,6 +47,6 @@ public interface RemoteUserService
     @PutMapping("/user/recordlogin")
     public R<Boolean> recordUserLogin(@RequestBody SysUser sysUser, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 
-    @GetMapping("/user/isHaveandSave/{username}")
-    R<LoginUser> isHaveandSave(@PathVariable("username") String username, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
+    @PostMapping("/user/isHaveandSave")
+    R<LoginUser> isHaveandSave(@RequestParam("username") String username,@RequestParam("avator") String avator, @RequestHeader(SecurityConstants.FROM_SOURCE) String source);
 }

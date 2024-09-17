@@ -84,7 +84,7 @@ public class AuthController {
         //获取用户信息
 //        LoginVo loginVo = IAuthStrategy.login(body, client, grantType);
         //新增用户
-        LoginUser loginUser = loginService.isHaveLogined(authUserData.getUsername());
+        LoginUser loginUser = loginService.isHaveLogined(authUserData.getUsername(),authUserData.getAvatar());
         //feign->新增用户相关表sys_social
 
         //创建token
